@@ -1,13 +1,28 @@
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import { useState } from 'react';
 
-const Header = () => (
-    <header className='side-navbar'>
-        <nav className=''>
-            <Link className="link-styling" to="/">Home</Link>
-            <Link className="link-styling" to="/budget">Create Budget</Link>
-            <Link className="link-styling" to="/about">About</Link>
-        </nav>
-    </header>
-);
+const Header = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    return (
+        <div className='side-navbar'>
+            <nav>
+                <button
+                    className="hamburger"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    ☰
+                </button>
+                <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+
+                <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/">Home</NavLink>
+                <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/budget">Create Budget</NavLink>
+                <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/ViewBudgets">View Budgets</NavLink>
+                <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/about">About</NavLink>
+                </div>
+            </nav>
+        </div>
+    );
+};
 
 export default Header;

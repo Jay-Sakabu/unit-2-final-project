@@ -1,3 +1,4 @@
+/* Root / Whole element selectors */
 html, body, #root {
   background-color: #242424;
   color: rgb(192, 192, 223);
@@ -10,6 +11,7 @@ h1, h2{
   text-align: center;
 }
 
+/* Home page  */
 .home-page{
   padding-top: 50px;
   opacity: 1;
@@ -17,6 +19,15 @@ h1, h2{
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in;
 	animation-duration: 1.5s;
+}
+
+@keyframes fadeInOpacity{
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .home-page-photo-carousel{
@@ -87,14 +98,7 @@ h1, h2{
   box-shadow: rgba(0, 0, 0, 0.25) 10px 10px 30px 0;
 }
 
-@keyframes fadeInOpacity{
-  0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
+/* Navbar / Hamburger menu CSS */
 .side-navbar {
   background-color: #24234f;
   padding: 2rem 1rem;
@@ -106,6 +110,16 @@ h1, h2{
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 .nav-links {
@@ -120,7 +134,20 @@ h1, h2{
   font-weight: bold;
   display: block;
   margin-top: 10px;
+  &:hover{
+    color:blue;
+  }
 }
+
+.active-link{
+  background-color: yellow;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+/* Footer CSS */
 
 .footer {
   background-color: rgb(100, 100, 100);
@@ -139,6 +166,8 @@ h1, h2{
   font-size: large;
 }
 
+/* Main content CSS */
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -151,6 +180,7 @@ h1, h2{
   padding: 2rem;
 }
 
+/* Mobile only CSS */
 
 @media (max-width: 768px) {
   .side-navbar {
@@ -163,9 +193,24 @@ h1, h2{
     border-bottom: 1px solid #ddd;
   }
 
+    .hamburger {
+    display: block;
+  }
+
   .nav-links {
-    flex-direction: row;
+    display: none;
+    flex-direction: column;
     gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .side-navbar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .app-container {
