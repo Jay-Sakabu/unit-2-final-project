@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router'
 import Home from './Pages/Home'
 import ViewBudget from './Pages/ViewBudget'
 
+
 function App() {
   const [count, setCount] = useState(0)
 
