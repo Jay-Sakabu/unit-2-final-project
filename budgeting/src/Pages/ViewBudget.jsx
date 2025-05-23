@@ -1,8 +1,9 @@
 import React from "react";
+import BudgetDashboard from "../components/BudgetDashboard";
 
 const ViewBudget = () => {
     return(
-        <div><h1>View Budgets placeholder</h1></div>
+        <BudgetDashboard/>
     );
 }
 

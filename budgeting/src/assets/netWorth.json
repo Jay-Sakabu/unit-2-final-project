@@ -1,0 +1,13 @@
+{
+  "assets": {
+    "Cash": 8000,
+    "Investments": 15000,
+    "Property": 120000,
+    "401k": 60000
+  },
+  "liabilities": {
+    "Credit Cards": 1000,
+    "Student Loans": 12000,
+    "Car Loan": 3000
+  }
+}
