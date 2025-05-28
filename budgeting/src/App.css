@@ -47,7 +47,6 @@ h1, h2{
   will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
   animation: scrolling 10s linear infinite;
   gap: 20px;
-  min-width: 100%;
   width: max-content;
 
   /* Add padding to the right to create a gap between the last and first card. */
