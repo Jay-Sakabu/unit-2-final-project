@@ -25,6 +25,10 @@ ul{
 
 
 //Custom list item
+li{
+  color: blue;
+}
+
 .transaction-date{
   margin-top: 100px;
   margin-left: 20px;
