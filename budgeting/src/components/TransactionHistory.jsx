@@ -138,7 +138,7 @@ const TransactionHistory = () => {
             <p>Total Income: ${income.toFixed(2)}</p>
             <p>Total Expenses: -${Math.abs(expenses).toFixed(2)}</p>
 
-            <table className="transaction-table">
+            <table>
                 <thead>
                     <tr>
                         <th>Date</th>

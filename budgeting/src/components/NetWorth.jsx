@@ -19,6 +19,7 @@ const NetWorth = () => {
     return (
         <div className="dashboard-box">
             <h2>Net Worth</h2>
+            {/* TODO: Create styles for these items */}
             <p>Total Assets: ${totalAssets.toLocaleString()}</p>
             <p>Total Liabilities: ${totalLiabilities.toLocaleString()}</p>
             <p>Net Worth: ${netWorth.toLocaleString()}</p>
