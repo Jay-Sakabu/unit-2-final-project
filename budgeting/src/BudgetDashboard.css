@@ -16,11 +16,18 @@
   margin-top: 2%;
 }
 
+.dashboard-box input {
+    width: 100%;  
+    max-width: 100%;  
+    padding: 8px;
+    margin: 5px 0;  
+    box-sizing: border-box; 
+}
 //https://stackoverflow.com/questions/7698764/custom-bullet-symbol-for-li-elements-in-ul-that-is-a-regular-character-and
 
 ul{
   list-style: none;
-  list-style-type: armenian;
+  padding-left: 0;
 }
 
 
