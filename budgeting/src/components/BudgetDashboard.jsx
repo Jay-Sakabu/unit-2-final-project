@@ -9,9 +9,11 @@ import Budget from "./Budget.jsx";
 const MonthlySpending = () => (
     <div className="dashboard-box">
         <h2>Monthly Spending</h2>
-        <p>Total:</p>
+        <p>Total: $1,425</p>
         <ul>
-            <li>A dollar</li>
+            <li>Food: $345</li>
+            <li>Rent: $953</li>
+            <li>Other: $127</li>
         </ul>
     </div>
 );
