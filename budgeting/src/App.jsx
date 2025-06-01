@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -12,8 +11,6 @@ import ViewBudget from './Pages/ViewBudget'
 //looking at some of the names is a headache
 
 function App() {
-  const [count, setCount] = useState(0)
-
 
   return (
     <Router>
