@@ -157,7 +157,6 @@ h1, h2{
   padding: 1rem;
   /* border-top: 1px solid #ddd; */
   text-align: center;
-  font-size: 0.9rem;
   min-height: 50px;
 }
 
@@ -180,6 +179,21 @@ h1, h2{
   flex: 1;
   margin-left: 200px; /* same as sidebar width */
   padding: 2rem;
+}
+
+/* BudgetForm CSS */
+
+#budget-form .income-types-group {
+  display: flex;
+  gap: 1rem;           
+  align-items: center; 
+  margin-bottom: 1rem; 
+}
+
+#budget-form .income-types-option {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; 
 }
 
 /* Mobile only CSS */

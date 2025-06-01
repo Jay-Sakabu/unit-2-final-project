@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 //TODO: Add some comments for ease of explanation for presentation, mostly fine
-//Alerts might not be working proper on netlify?
 
 const BudgetForm = ({ onSubmitBudget }) => {
     const [type, setType] = useState('monthly');
     const [amount, setAmount] = useState('');
     const [monthCount, setMonthCount] = useState(1);
     const [averages, setAverages] = useState(['']);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const reset = () => {
         setAmount('');
@@ -23,16 +23,19 @@ const BudgetForm = ({ onSubmitBudget }) => {
             monthly = Number(amount) / 12;
         } else {
             const nums = averages.map(Number).filter(n => !isNaN(n));
+            //Realistically, this code probably won't be reached because the browser will complain at the user to fill out the month values anyways
             if (nums.length !== monthCount) {
-                alert('Please fill in all month values.');
+                setErrorMessage("Error! Please enter values for every month!")
                 return null;
             }
             monthly = nums.reduce((sum, n) => sum + n, 0) / monthCount;
         }
         if (!monthly || monthly <= 0) {
-            alert('Enter a positive number.');
+            setErrorMessage("Error! Please enter a positive number!")
             return null;
         }
+        //Clear error if reach to the end
+        setErrorMessage("");
         return {
             monthlyIncome: monthly,
             needs: monthly * 0.5,
@@ -54,9 +57,9 @@ const BudgetForm = ({ onSubmitBudget }) => {
         //TODO: budget-form doesn't exist
         <form onSubmit={handleSubmit} className="dashboard-box" id="budget-form">
             <h2>Enter Your Income</h2>
-            <div>
+            <div className="income-types-group">
                 {['monthly', 'annual', 'average'].map(option => (
-                    <label key={option}>
+                    <label key={option} className="income-types-option">
                         <input
                             type="radio"
                             name="type"
@@ -109,6 +112,9 @@ const BudgetForm = ({ onSubmitBudget }) => {
             )}
 
             <button type="submit">Calculate</button>
+            {errorMessage && (
+                <p>{errorMessage}</p>
+            )}
         </form>
     );
 }
