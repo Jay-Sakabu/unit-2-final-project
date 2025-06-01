@@ -1,4 +1,3 @@
-import React from "react";
 import netWorthData from "../assets/netWorth.json";
 
 const NetWorth = () => {

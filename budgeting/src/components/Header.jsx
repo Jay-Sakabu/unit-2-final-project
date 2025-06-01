@@ -16,7 +16,7 @@ const Header = () => {
                 <div className={`nav-links ${menuOpen ? "open" : ""}`}>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/">Home</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/budget">Create Budget</NavLink>
-                    <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/ViewBudgets">View Budgets</NavLink>
+                    <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/ViewBudgets">Financial Info</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/about">About</NavLink>
                 </div>
             </nav>
