@@ -14,6 +14,7 @@ const Header = () => {
                     ☰
                 </button>
                 <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+                    {/* Check if link is active, if so: give link active-link CSS class */}
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/">Home</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/budget">Create Budget</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/ViewBudgets">Financial Info</NavLink>

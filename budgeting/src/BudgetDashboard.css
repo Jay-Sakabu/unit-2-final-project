@@ -61,3 +61,15 @@
     margin-left: 0;
   }
 }
+@media (max-width: 600px) {
+  .budget-dashboard {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    grid-gap: 1rem;
+  }
+
+  .dashboard-box {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+}
