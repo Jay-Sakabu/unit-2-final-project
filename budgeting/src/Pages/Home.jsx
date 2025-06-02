@@ -1,9 +1,10 @@
+import mascotImage from '../assets/mascot.webp'
+
 const Home = () => {
     return (
         <div className="home-page">
             <h1>Budget Now!</h1>
             <h2>Hear from our users!</h2>
-            <img src="src/assets/mascot-853328_1280.webp" alt="mascot" />
             <div className="home-page-photo-carousel">
                 <div className="group">
                     <div className="card">
@@ -15,7 +16,7 @@ const Home = () => {
                         <h3>Malik D.</h3>
                     </div>
                     <div className="card">
-                        <img src="../assets/mascot-853328_1280.webp" alt="mascot" />
+                        <img src={mascotImage} alt="mascot" />
                         <h3>Gopher</h3>
                     </div>
                 </div>
@@ -29,7 +30,7 @@ const Home = () => {
                         <h3>Malik D.</h3>
                     </div>
                     <div className="card">
-                        <img src="../assets/mascot-853328_1280.webp" alt="mascot" />
+                        <img src={mascotImage} alt="mascot" />
                         <h3>Gopher</h3>
                     </div>
                 </div>
