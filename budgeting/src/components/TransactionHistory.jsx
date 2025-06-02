@@ -8,6 +8,7 @@ const TransactionHistory = () => {
     const [newDescription, setNewDescription] = useState("");
     const [newAmount, setNewAmount] = useState(0);
 
+    // Check if there is a local transactions data, if so parse that data, else use the stored sample data
     useEffect(() => {
         const storedTransactions = localStorage.getItem("transactions");
         if (storedTransactions) {
@@ -18,10 +19,12 @@ const TransactionHistory = () => {
         }
     }, []);
 
+    // Save the updated transactions to localStorage
     const saveToLocal = (updatedTransactions) => {
         localStorage.setItem("transactions", JSON.stringify(updatedTransactions));
     };
 
+    // Loop through transactions, as long as i is not the indexToDelete, push that entry to an updated transactions array
     const handleDelete = (indexToDelete) => {
         const updatedTransactions = [];
         for (let i = 0; i < transactions.length; i++) {
@@ -33,21 +36,25 @@ const TransactionHistory = () => {
         saveToLocal(updatedTransactions);
     };
 
+    // Start editing: set index and fill the edit form with its transaction data
     const startEdit = (indexToEdit) => {
         setEditingIndex(indexToEdit);
         setEditForm(transactions[indexToEdit]);
     };
 
+    // Cancel editing and reset form state
     const cancelEdit = () => {
         setEditingIndex(null);
         setEditForm({ description: "", amount: 0, date: "" });
     };
 
+    // Handle form input changes during editing
     const handleEditChange = (event) => {
         const { name, value } = event.target;
         setEditForm((prevForm) => ({ ...prevForm, [name]: value }));
     };
 
+    // Save the edited transaction and save to localStorage
     const handleSaveEdit = () => {
         const updatedTransactions = [...transactions];
         updatedTransactions[editingIndex] = {
@@ -59,14 +66,17 @@ const TransactionHistory = () => {
         cancelEdit();
     };
 
+    // Sum all positive amounts to calculate income
     const income = transactions
         .filter((transaction) => transaction.amount > 0)
         .reduce((total, transaction) => total + transaction.amount, 0);
 
+    // Sum all negative amounts to calculate expenses
     const expenses = transactions
         .filter((transaction) => transaction.amount < 0)
         .reduce((total, transaction) => total + transaction.amount, 0);
 
+    // Row for editing mode with inputs and save/cancel buttons
     const EditableRow = ({ form, onChange, onSave, onCancel }) => (
         <tr>
             <td>
@@ -85,6 +95,7 @@ const TransactionHistory = () => {
         </tr>
     );
 
+    // Row for normal display mode with edit/delete buttons
     const ReadOnlyRow = ({ transaction, onEdit, onDelete }) => (
         <tr>
             <td>{transaction.date}</td>
@@ -103,6 +114,8 @@ const TransactionHistory = () => {
         <div className="dashboard-box">
             <h2>Transaction History</h2>
             <h3>Add Transaction</h3>
+
+            {/* Form to add new transactions */}
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
@@ -135,9 +148,11 @@ const TransactionHistory = () => {
                 <button type="submit" disabled={newAmount == 0 || isNaN(newAmount)}>Add</button>
             </form>
 
+            {/* Income and expense totals, might change later */}
             <p>Total Income: ${income.toFixed(2)}</p>
             <p>Total Expenses: -${Math.abs(expenses).toFixed(2)}</p>
 
+            {/* Transactions table with editable and static rows */}
             <table>
                 <thead>
                     <tr>

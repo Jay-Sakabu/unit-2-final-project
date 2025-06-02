@@ -9,32 +9,43 @@ const BudgetForm = ({ onSubmitBudget }) => {
     const [averages, setAverages] = useState(['']);
     const [errorMessage, setErrorMessage] = useState("");
 
+    // Reset all inputs to initial state
     const reset = () => {
         setAmount('');
         setMonthCount(1);
         setAverages(['']);
     };
 
+    // Calculate the monthly income and derive budget categories
     const calculateBudget = () => {
         let monthly = 0;
+
+        // Monthly income is used directly
         if (type === 'monthly') {
             monthly = Number(amount);
-        } else if (type === 'annual') {
+        }
+        else if (type === 'annual') {
             monthly = Number(amount) / 12;
-        } else {
+        }
+        // Average of X months is calculated from user inputs
+        else {
             const nums = averages.map(Number).filter(n => !isNaN(n));
             //Realistically, this code probably won't be reached because the browser will complain at the user to fill out the month values anyways
             if (nums.length !== monthCount) {
-                setErrorMessage("Error! Please enter values for every month!")
+                setErrorMessage("Error! Please enter values for every month!");
                 return null;
             }
+
             monthly = nums.reduce((sum, n) => sum + n, 0) / monthCount;
         }
+
+        // Validate that the monthly value is a positive number
         if (!monthly || monthly <= 0) {
-            setErrorMessage("Error! Please enter a positive number for months!")
+            setErrorMessage("Error! Please enter a positive number for months!");
             return null;
         }
-        //Clear error if reach to the end
+
+        // Clear error state before returning valid budget
         setErrorMessage("");
         return {
             monthlyIncome: monthly,
@@ -44,18 +55,21 @@ const BudgetForm = ({ onSubmitBudget }) => {
         };
     };
 
+    // Handle form submission
     const handleSubmit = e => {
         e.preventDefault();
-        const budget = calculateBudget();
+        const budget = calculateBudget(); // Try to compute budget
         if (budget) {
-            onSubmitBudget(budget);
-            reset();
+            onSubmitBudget(budget); // Pass budget up to parent
+            reset(); // Reset form fields
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className="dashboard-box" id="budget-form">
             <h2>Enter Your Income</h2>
+
+            {/* Income type selection (monthly, annual, average of X months) */}
             <div className="income-types-group">
                 {['monthly', 'annual', 'average'].map(option => (
                     <label key={option} className="income-types-option">
@@ -71,6 +85,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
                 ))}
             </div>
 
+            {/* If 'average' is selected, show inputs for number of months and their values */}
             {type === 'average' ? (
                 <>
                     <input
@@ -80,7 +95,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
                         onChange={e => {
                             const count = Number(e.target.value) || 1;
                             setMonthCount(count);
-                            setAverages(Array(count).fill(''));
+                            setAverages(Array(count).fill('')); // Reset averages array
                         }}
                         placeholder="Months to average"
                         required
@@ -94,13 +109,14 @@ const BudgetForm = ({ onSubmitBudget }) => {
                             onChange={e => {
                                 const copy = [...averages];
                                 copy[index] = e.target.value;
-                                setAverages(copy);
+                                setAverages(copy); // Update specific month's value
                             }}
                             required
                         />
                     ))}
                 </>
             ) : (
+                // Input for monthly or annual amount depending on selection
                 <input
                     type="number"
                     placeholder={type === 'annual' ? 'Annual amount' : 'Monthly amount'}
@@ -110,9 +126,12 @@ const BudgetForm = ({ onSubmitBudget }) => {
                 />
             )}
 
+            {/* Submit button */}
             <button type="submit">Calculate</button>
+
+            {/* Display error if one exists */}
             {errorMessage && (
-                <p style={{color: 'red', fontSize: '30px'}}>{errorMessage}</p>
+                <p style={{ color: 'red', fontSize: '30px' }}>{errorMessage}</p>
             )}
         </form>
     );

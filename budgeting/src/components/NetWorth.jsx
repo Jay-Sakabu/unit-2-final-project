@@ -19,6 +19,7 @@ const NetWorth = () => {
         <div className="dashboard-box">
             <h2>Net Worth</h2>
             {/* TODO: Create styles for these items */}
+            {/* toLocaleStrings for proper currency displaying */}
             <p>Total Assets: {totalAssets.toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
             <p>Total Liabilities: {totalLiabilities.toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
             <p>Net Worth: {netWorth.toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
