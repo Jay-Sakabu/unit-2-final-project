@@ -14,7 +14,7 @@ const Home = () => {
                         <h3>Malik D.</h3>
                     </div>
                     <div className="card">
-                        <img src="https://cdn.pixabay.com/photo/2015/07/20/21/01/mascot-853328_1280.png" alt="mascot" />
+                        <img src="./src/assets/mascot-853328_1280.webp" alt="mascot" />
                         <h3>Gopher</h3>
                     </div>
                 </div>
@@ -28,7 +28,7 @@ const Home = () => {
                         <h3>Malik D.</h3>
                     </div>
                     <div className="card">
-                        <img src="https://cdn.pixabay.com/photo/2015/07/20/21/01/mascot-853328_1280.png" alt="mascot" />
+                        <img src="./src/assets/mascot-853328_1280.webp" alt="mascot" />
                         <h3>Gopher</h3>
                     </div>
                 </div>
