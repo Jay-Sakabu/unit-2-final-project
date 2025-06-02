@@ -3,11 +3,11 @@
     "Cash": 8000,
     "Investments": 15000,
     "Property": 120000,
-    "401k": 60000
+    "401k": 61450.20
   },
   "liabilities": {
-    "Credit Cards": 1000,
-    "Student Loans": 12000,
-    "Car Loan": 3000
+    "Credit Cards": 1000.50,
+    "Student Loans": 12000.67,
+    "Car Loan": 3000.23
   }
 }

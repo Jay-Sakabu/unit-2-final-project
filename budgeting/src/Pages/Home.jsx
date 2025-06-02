@@ -1,30 +1,36 @@
 const Home = () => {
     return (
         <div className="home-page">
-            <h1>Budgeting app (Change this name) </h1>
-            <h2>Read our user's stories!</h2>
+            <h1>Budget Now!</h1>
+            <h2>Hear from our users!</h2>
             <div className="home-page-photo-carousel">
                 <div className="group">
                     <div className="card">
-                        <p>I used to be a loser, until I wasn't!</p>
-                        <h3>-That guy</h3>
+                        <p>I finally made sense of my spending!</p>
+                        <h3>James P.</h3>
                     </div>
                     <div className="card">
-                        <p>That guy really was a loser lol</p>
-                        <h3>-Hater</h3>
+                        <p>With this app I paid off two cards in six months.</p>
+                        <h3>Malik D.</h3>
                     </div>
-                    <div className="card"><img src="https://static.wikia.nocookie.net/characterprofile/images/4/4e/RaidenMKXrender.png" alt="raiden"></img>Pikachue kamehameha</div>
+                    <div className="card">
+                        <img src="https://cdn.pixabay.com/photo/2015/07/20/21/01/mascot-853328_1280.png" alt="mascot" />
+                        <h3>Gopher</h3>
+                    </div>
                 </div>
                 <div aria-hidden="true" className="group">
                     <div className="card">
-                        <p>I used to be a loser, until I wasn't!</p>
-                        <h3>-That guy</h3>
+                        <p>I finally made sense of my spending!</p>
+                        <h3>James P.</h3>
                     </div>
                     <div className="card">
-                        <p>That guy really was a loser lol</p>
-                        <h3>-Hater</h3>
+                        <p>With this app I paid off two cards in six months.</p>
+                        <h3>Malik D.</h3>
                     </div>
-                    <div className="card"><img src="https://static.wikia.nocookie.net/characterprofile/images/4/4e/RaidenMKXrender.png" alt="raiden"></img>Pikachue kamehameha</div>
+                    <div className="card">
+                        <img src="https://cdn.pixabay.com/photo/2015/07/20/21/01/mascot-853328_1280.png" alt="mascot" />
+                        <h3>Gopher</h3>
+                    </div>
                 </div>
             </div>
         </div>

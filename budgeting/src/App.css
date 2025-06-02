@@ -53,6 +53,10 @@ h1, h2{
   padding-right: 20px;
 }
 
+.home-page img {
+  max-height: 100%;
+  max-width: 100%;
+}
 
 @keyframes scrolling {
   0% {
@@ -113,9 +117,17 @@ h1, h2{
 }
 
 .about-page p {
+  color: white;
   text-align: center;
   font-size: large;
   font-family: Verdana;
+}
+
+.about-page-text{
+  background-color: #333366;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Navbar / Hamburger menu CSS */

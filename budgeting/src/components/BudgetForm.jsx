@@ -31,7 +31,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
             monthly = nums.reduce((sum, n) => sum + n, 0) / monthCount;
         }
         if (!monthly || monthly <= 0) {
-            setErrorMessage("Error! Please enter a positive number!")
+            setErrorMessage("Error! Please enter a positive number for months!")
             return null;
         }
         //Clear error if reach to the end
@@ -54,7 +54,6 @@ const BudgetForm = ({ onSubmitBudget }) => {
     };
 
     return (
-        //TODO: budget-form doesn't exist
         <form onSubmit={handleSubmit} className="dashboard-box" id="budget-form">
             <h2>Enter Your Income</h2>
             <div className="income-types-group">
@@ -113,7 +112,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
 
             <button type="submit">Calculate</button>
             {errorMessage && (
-                <p>{errorMessage}</p>
+                <p style={{color: 'red', fontSize: '30px'}}>{errorMessage}</p>
             )}
         </form>
     );

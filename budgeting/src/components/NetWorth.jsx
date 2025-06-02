@@ -19,9 +19,9 @@ const NetWorth = () => {
         <div className="dashboard-box">
             <h2>Net Worth</h2>
             {/* TODO: Create styles for these items */}
-            <p>Total Assets: ${totalAssets.toLocaleString()}</p>
-            <p>Total Liabilities: ${totalLiabilities.toLocaleString()}</p>
-            <p>Net Worth: ${netWorth.toLocaleString()}</p>
+            <p>Total Assets: {totalAssets.toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
+            <p>Total Liabilities: {totalLiabilities.toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
+            <p>Net Worth: {netWorth.toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
 
             <table className="networth-table">
                 <thead>
@@ -39,7 +39,7 @@ const NetWorth = () => {
                                 <tr key={"asset-" + name}>
                                     <td>Asset</td>
                                     <td>{name}</td>
-                                    <td>${assets[name].toLocaleString()}</td>
+                                    <td>{assets[name].toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
                                 </tr>
                             );
                         }
@@ -48,7 +48,7 @@ const NetWorth = () => {
                                 <tr key={"liability-" + name}>
                                     <td>Liability</td>
                                     <td>{name}</td>
-                                    <td>-${liabilities[name].toLocaleString()}</td>
+                                    <td>-{liabilities[name].toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
                                 </tr>
                             );
                         }
