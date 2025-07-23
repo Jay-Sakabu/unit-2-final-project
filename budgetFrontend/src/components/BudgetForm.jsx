@@ -91,9 +91,13 @@ const BudgetForm = ({ onSubmitBudget }) => {
                     <input
                         type="number"
                         min="1"
+                        max="12"
                         value={monthCount}
                         onChange={e => {
                             const count = Number(e.target.value) || 1;
+                            if(count > 12){
+                                count = 12;
+                            }
                             setMonthCount(count);
                             setAverages(Array(count).fill('')); // Reset averages array
                         }}
