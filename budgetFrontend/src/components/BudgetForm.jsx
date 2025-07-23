@@ -94,7 +94,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
                         max="12"
                         value={monthCount}
                         onChange={e => {
-                            const count = Number(e.target.value) || 1;
+                            let count = Number(e.target.value) || 1;
                             if(count > 12){
                                 count = 12;
                             }
