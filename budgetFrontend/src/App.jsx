@@ -1,6 +1,6 @@
 import './App.css'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from './components/universal-components/Header'
+import Footer from './components/universal-components/Footer'
 import About from './Pages/About'
 import BudgetForm from './Pages/CreateBudgetPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router'

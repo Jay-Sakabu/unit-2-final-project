@@ -1,4 +1,4 @@
-import netWorthData from "../assets/netWorth.json";
+import netWorthData from "../../assets/netWorth.json";
 
 const NetWorth = () => {
     const { assets, liabilities } = netWorthData;

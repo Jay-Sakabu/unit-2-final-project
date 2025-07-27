@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import BudgetForm from '../components/BudgetForm'
-import Budget from '../components/Budget';
+import BudgetForm from '../components/forms/BudgetForm'
+import Budget from '../components/budget-dashboard/Budget';
 
 const CreateBudgetPage = () => {
     const [budget, setBudget] = useState(null);

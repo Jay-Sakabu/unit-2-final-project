@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import TransactionHistory from "./TransactionHistory";
 import NetWorth from "./NetWorth.jsx";
-import "../BudgetDashboard.css";
+import "../../BudgetDashboard.css";
 import Budget from "./Budget.jsx";
 
 // Placeholder Monthly Spending Component 

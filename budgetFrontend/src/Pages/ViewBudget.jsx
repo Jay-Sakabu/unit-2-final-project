@@ -1,4 +1,4 @@
-import BudgetDashboard from "../components/BudgetDashboard";
+import BudgetDashboard from "../components/budget-dashboard/BudgetDashboard";
 
 const ViewBudget = () => {
     return(

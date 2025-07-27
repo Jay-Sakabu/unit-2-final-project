@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import transactionsData from "../assets/transactions.json";
+import transactionsData from "../../assets/transactions.json";
 
 const TransactionHistory = () => {
     const [transactions, setTransactions] = useState([]);
