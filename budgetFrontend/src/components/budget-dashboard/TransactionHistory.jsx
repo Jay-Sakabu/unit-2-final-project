@@ -1,22 +1,45 @@
 import { useState, useEffect } from "react";
 import transactionsData from "../../assets/transactions.json";
 
-const TransactionHistory = () => {
+// Helper function to noramlize dates, previous iteration allowed for blank date entries, parsing blanks using slice() on those entries would cause crashes
+function noramlizeDateString(date) {
+    const parsedDate = new Date(date);
+    if (typeof date !== "string" || isNaN(parsedDate.getTime())) {
+        return "";
+    }
+    return parsedDate.toISOString().slice(0, 10);
+}
+
+// Main Function
+const TransactionHistory = ({ onCategoryTotals }) => {
     const [transactions, setTransactions] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
-    const [editForm, setEditForm] = useState({ description: "", amount: 0, date: "" });
+    const [editForm, setEditForm] = useState({
+        description: "",
+        amount: 0,
+        date: "",
+        category: "Needs",
+    });
     const [newDescription, setNewDescription] = useState("");
     const [newAmount, setNewAmount] = useState(0);
+    const [newCategory, setNewCategory] = useState("Needs");
+    const [selectedMonth, setSelectedMonth] = useState(
+        new Date().toISOString().slice(0, 7)
+    );
 
     // Check if there is a local transactions data, if so parse that data, else use the stored sample data
     useEffect(() => {
         const storedTransactions = localStorage.getItem("transactions");
-        if (storedTransactions) {
-            setTransactions(JSON.parse(storedTransactions));
-        } else {
-            setTransactions(transactionsData);
-            localStorage.setItem("transactions", JSON.stringify(transactionsData));
+        let initial = storedTransactions ? JSON.parse(storedTransactions) : transactionsData;
+        const sanitizedData = initial.map((transaction) => ({
+            ...transaction,
+            date: noramlizeDateString(transaction.date),
+        }));
+        setTransactions(sanitizedData);
+        if (!storedTransactions) {
+            localStorage.setItem("transactions", JSON.stringify(sanitizedData));
         }
+
     }, []);
 
     // Save the updated transactions to localStorage
@@ -45,7 +68,12 @@ const TransactionHistory = () => {
     // Cancel editing and reset form state
     const cancelEdit = () => {
         setEditingIndex(null);
-        setEditForm({ description: "", amount: 0, date: "" });
+        setEditForm({
+            description: "",
+            amount: 0,
+            date: "",
+            category: "Needs",
+        });
     };
 
     // Handle form input changes during editing
@@ -66,27 +94,81 @@ const TransactionHistory = () => {
         cancelEdit();
     };
 
-    // Sum all positive amounts to calculate income
-    const income = transactions
-        .filter((transaction) => transaction.amount > 0)
-        .reduce((total, transaction) => total + transaction.amount, 0);
+    const handleAddTransaction = (event) => {
+        event.preventDefault();
+        // force the day to today but month/year == selectedMonth
+        const today = new Date();
+        const dayString = today.getDate().toString().padStart(2, "0");
+        const transactionDate = `${selectedMonth}-${dayString}`;
 
-    // Sum all negative amounts to calculate expenses
-    const expenses = transactions
-        .filter((transaction) => transaction.amount < 0)
-        .reduce((total, transaction) => total + transaction.amount, 0);
+        const newTransaction = {
+            date: transactionDate,
+            description: newDescription,
+            amount: parseFloat(newAmount),
+            category: newCategory,
+        };
+        const updatedTransactions = [...transactions, newTransaction];
+        setTransactions(updatedTransactions);
+        saveToLocal(updatedTransactions);
+        setNewDescription("");
+        setNewAmount(0);
+        setNewCategory("Needs");
+    };
 
-    // Row for editing mode with inputs and save/cancel buttons
+    // only show the month the user has picked
+    const filteredTransactions = transactions.filter((transaction) =>
+        transaction.date.slice(0, 7) === selectedMonth
+    );
+
+    // compute totals by category for this month
+    const categoryTotals = filteredTransactions.reduce(
+        (totals, transaction) => {
+            totals[transaction.category] =
+                (totals[transaction.category] || 0) + transaction.amount;
+            return totals;
+        },
+        { Needs: 0, Wants: 0, Savings: 0 }
+    );
+
+    // fire to parent / Graph.jsx
+    useEffect(() => {
+        if (onCategoryTotals) {
+            onCategoryTotals(categoryTotals);
+        }
+    }, [categoryTotals, onCategoryTotals]);
+
     const EditableRow = ({ form, onChange, onSave, onCancel }) => (
         <tr>
             <td>
-                <input type="text" name="date" value={form.date} onChange={onChange} />
+                <input type="date" name="date" value={form.date} onChange={onChange} />
             </td>
             <td>
-                <input type="text" name="description" value={form.description} onChange={onChange} />
+                <input
+                    type="text"
+                    name="description"
+                    value={form.description}
+                    onChange={onChange}
+                />
             </td>
             <td>
-                <input type="number" name="amount" value={form.amount} onChange={onChange} />
+                <select
+                    name="category"
+                    value={form.category}
+                    onChange={onChange}
+                >
+                    <option>Needs</option>
+                    <option>Wants</option>
+                    <option>Savings</option>
+                </select>
+            </td>
+            <td>
+                <input
+                    type="number"
+                    name="amount"
+                    min="0"
+                    value={form.amount}
+                    onChange={onChange}
+                />
             </td>
             <td>
                 <button onClick={onSave}>Save</button>
@@ -100,12 +182,21 @@ const TransactionHistory = () => {
         <tr>
             <td>{transaction.date}</td>
             <td>{transaction.description}</td>
+            <td>{transaction.category}</td>
+            <td>${transaction.amount.toFixed(2)}</td>
             <td>
-                {transaction.amount > 0 ? "+" : "-"}${Math.abs(transaction.amount).toFixed(2)}
-            </td>
-            <td>
-                <button style={{ color: "blue" }} onClick={onEdit}>Edit</button>
-                <button style={{ color: "red" }} onClick={onDelete}>Delete</button>
+                <button
+                    style={{ color: "blue" }}
+                    onClick={onEdit}
+                >
+                    Edit
+                </button>
+                <button
+                    style={{ color: "red" }}
+                    onClick={onDelete}
+                >
+                    Delete
+                </button>
             </td>
         </tr>
     );
@@ -113,24 +204,17 @@ const TransactionHistory = () => {
     return (
         <div className="dashboard-box">
             <h2>Transaction History</h2>
-            <h3>Add Transaction</h3>
+            <label>
+                View Month:
+                <input
+                    type="month"
+                    value={selectedMonth}
+                    onChange={(event) => setSelectedMonth(event.target.value)}
+                />
+            </label>
 
-            {/* Form to add new transactions */}
-            <form
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    const newTransaction = {
-                        date: new Date().toISOString().slice(0, 10),
-                        description: newDescription,
-                        amount: parseFloat(newAmount),
-                    };
-                    const updatedTransactions = [...transactions, newTransaction];
-                    setTransactions(updatedTransactions);
-                    saveToLocal(updatedTransactions);
-                    setNewDescription("");
-                    setNewAmount("");
-                }}
-            >
+            <h3>Add Transaction</h3>
+            <form onSubmit={handleAddTransaction}>
                 <input
                     type="text"
                     placeholder="Description"
@@ -141,16 +225,27 @@ const TransactionHistory = () => {
                 <input
                     type="number"
                     placeholder="Amount"
+                    min="0"
                     value={newAmount}
                     onChange={(event) => setNewAmount(event.target.value)}
                     required
                 />
-                <button type="submit" disabled={newAmount == 0 || isNaN(newAmount)}>Add</button>
+                <select
+                    value={newCategory}
+                    onChange={(event) => setNewCategory(event.target.value)}
+                >
+                    <option>Needs</option>
+                    <option>Wants</option>
+                    <option>Savings</option>
+                </select>
+                <button
+                    type="submit"
+                    disabled={!newDescription || isNaN(newAmount) || newAmount <= 0}
+                >
+                    Add
+                </button>
             </form>
 
-            {/* Income and expense totals, might change later */}
-            <p>Total Income: ${income.toFixed(2)}</p>
-            <p>Total Expenses: -${Math.abs(expenses).toFixed(2)}</p>
 
             {/* Transactions table with editable and static rows */}
             <table>
@@ -158,12 +253,13 @@ const TransactionHistory = () => {
                     <tr>
                         <th>Date</th>
                         <th>Description</th>
+                        <th>Category</th>
                         <th>Amount</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {transactions.map((transaction, index) =>
+                    {filteredTransactions.map((transaction, index) =>
                         editingIndex === index ? (
                             <EditableRow
                                 key={index}

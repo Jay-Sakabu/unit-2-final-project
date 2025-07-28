@@ -3,6 +3,7 @@ import TransactionHistory from "./TransactionHistory";
 import NetWorth from "./NetWorth.jsx";
 import "../../BudgetDashboard.css";
 import Budget from "./Budget.jsx";
+import Graph from "./Graph.jsx";
 
 // Placeholder Monthly Spending Component 
 // TODO: Make this component functional and add it to components also make it a list because that's the one requirement not yet fulfilled
@@ -39,10 +40,10 @@ const BudgetDashboard = () => {
             </div>
             <div className="budget-dashboard">
                 <div className="row">
-                    <MonthlySpending />
+                    <TransactionHistory />
                 </div>
                 <div className="row">
-                    <TransactionHistory />
+                    <MonthlySpending />
                 </div>
                 <div className="row">
                     <NetWorth />
