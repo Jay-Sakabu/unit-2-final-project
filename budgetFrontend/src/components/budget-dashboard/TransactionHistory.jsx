@@ -7,7 +7,7 @@ function noramlizeDateString(date) {
     if (typeof date !== "string" || isNaN(parsedDate.getTime())) {
         return "";
     }
-    return parsedDate.toISOString().slice(0, 10);
+    return parsedDate.toISOString().slice(0, 7);
 }
 
 // Main Function
@@ -45,6 +45,7 @@ const TransactionHistory = ({ onCategoryTotals }) => {
     // Save the updated transactions to localStorage
     const saveToLocal = (updatedTransactions) => {
         localStorage.setItem("transactions", JSON.stringify(updatedTransactions));
+        console.log(updatedTransactions);
     };
 
     // Loop through transactions, as long as i is not the indexToDelete, push that entry to an updated transactions array
@@ -96,10 +97,7 @@ const TransactionHistory = ({ onCategoryTotals }) => {
 
     const handleAddTransaction = (event) => {
         event.preventDefault();
-        // force the day to today but month/year == selectedMonth
-        const today = new Date();
-        const dayString = today.getDate().toString().padStart(2, "0");
-        const transactionDate = `${selectedMonth}-${dayString}`;
+        const transactionDate = selectedMonth;
 
         const newTransaction = {
             date: transactionDate,
@@ -139,9 +137,10 @@ const TransactionHistory = ({ onCategoryTotals }) => {
 
     const EditableRow = ({ form, onChange, onSave, onCancel }) => (
         <tr>
-            <td>
+            {/* <td>
                 <input type="date" name="date" value={form.date} onChange={onChange} />
-            </td>
+            </td> */}
+            <td>{form.date}</td>
             <td>
                 <input
                     type="text"
