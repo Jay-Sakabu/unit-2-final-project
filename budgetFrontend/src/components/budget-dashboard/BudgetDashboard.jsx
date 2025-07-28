@@ -58,7 +58,7 @@ const BudgetDashboard = () => {
 
             <div className="budget-dashboard">
                 <div className="row">
-                    <Budget />
+                    <Budget propBudget={budget}/>
                 </div>
 
             </div>
@@ -75,6 +75,8 @@ const BudgetDashboard = () => {
                     <NetWorth />
                 </div>
             </div>
+            {/* Conditional rendering, if no budget, don't show the empty graphs */}
+            {budget && (
             <div className="budget-dashboard">
                 <div className="row">
                     <div className="row">
@@ -84,6 +86,7 @@ const BudgetDashboard = () => {
                     </div>
                 </div>
             </div>
+            )}
         </div>
     );
 };

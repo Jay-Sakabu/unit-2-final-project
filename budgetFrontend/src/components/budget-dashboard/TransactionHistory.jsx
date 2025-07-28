@@ -210,16 +210,19 @@ const TransactionHistory = ({ onCategoryTotals }) => {
                     type="month"
                     value={selectedMonth}
                     onChange={(event) => setSelectedMonth(event.target.value)}
+                    id="selectMonth"
                 />
             </label>
 
             <h3>Add Transaction</h3>
+            {/* TODO: Make this its own form */}
             <form onSubmit={handleAddTransaction}>
                 <input
                     type="text"
                     placeholder="Description"
                     value={newDescription}
                     onChange={(event) => setNewDescription(event.target.value)}
+                    id="descriptionTextbox"
                     required
                 />
                 <input
@@ -228,11 +231,13 @@ const TransactionHistory = ({ onCategoryTotals }) => {
                     min="0"
                     value={newAmount}
                     onChange={(event) => setNewAmount(event.target.value)}
+                    id="transactionAmount"
                     required
                 />
                 <select
                     value={newCategory}
                     onChange={(event) => setNewCategory(event.target.value)}
+                    id="categoryDropdownMenu"
                 >
                     <option>Needs</option>
                     <option>Wants</option>
