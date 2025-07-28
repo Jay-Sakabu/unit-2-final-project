@@ -1,13 +1,80 @@
-import { Link } from "react-router";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, } from "chart.js";
+import { Pie } from "react-chartjs-2";
 
-const Graph = () => (
-    <footer className="footer" >
-        <p>
-            Follow me on:
-            <Link to="https://www.linkedin.com/in/jay-sakabu-b78a04136/" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} /></Link>
-            <Link className="fa-brands fa-github" to="https://github.com/Jay-Sakabu" target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGithub} /> </Link>
-        </p>
-    </footer>
-);
+// https://blog.logrocket.com/using-chart-js-react/
+// https://www.chartjs.org/docs/latest/charts/doughnut.html
+// register the pie (arc) element and plugins
+ChartJS.register(ArcElement, Tooltip, Legend, Title);
+
+const Graph = ({ actualSpending, budgetTargets }) => {
+    // labels for each chart
+    const actualLabels = ["Needs", "Wants", "Savings", "Unallocated"];
+    const targetLabels = ["Needs", "Wants", "Savings"];
+
+    const sliceColors = [
+        "#632734ff", // Needs
+        "#143d58ff", // Wants
+        "#72591aff", // Savings
+        "transparent", // Unallocated
+    ];
+
+    // build actual‐spending pie (with Unallocated)
+    const actualData = {
+        labels: actualLabels,
+        datasets: [
+            {
+                label: "Actual Spending",
+                data: actualLabels.map((cat) => actualSpending[cat] || 0),
+                backgroundColor: sliceColors,
+            },
+        ],
+    };
+
+    // build budget‐targets pie (only the first 3 slices)
+    const targetData = {
+        labels: targetLabels,
+        datasets: [
+            {
+                label: "Budget Targets",
+                data: targetLabels.map((cat) => budgetTargets[cat] || 0),
+                backgroundColor: sliceColors.slice(0, 3),
+            },
+        ],
+    };
+
+    return (
+        <div
+            className="dashboard-graph"
+            style={{ display: "flex", justifyContent: "space-around" }}
+        >
+            <div style={{ width: "35%" }}>
+                <Pie
+                    data={actualData}
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: "Actual Spending",
+                            },
+                        },
+                    }}
+                />
+            </div>
+            <div style={{ width: "35%" }}>
+                <Pie
+                    data={targetData}
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: "Budget Targets",
+                            },
+                        },
+                    }}
+                />
+            </div>
+        </div>
+    );
+};
 
 export default Graph;

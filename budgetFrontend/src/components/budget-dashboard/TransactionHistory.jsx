@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import transactionsData from "../../assets/transactions.json";
 
 // Helper function to noramlize dates, previous iteration allowed for blank date entries, parsing blanks using slice() on those entries would cause crashes
@@ -113,19 +113,20 @@ const TransactionHistory = ({ onCategoryTotals }) => {
         setNewCategory("Needs");
     };
 
-    // only show the month the user has picked
-    const filteredTransactions = transactions.filter((transaction) =>
-        transaction.date.slice(0, 7) === selectedMonth
+    // only show the month the user has picked & use memoization to cache results
+    // Previously ran into error "Maximum update depth exceeded, caused by calling setState inside useEffect"
+    const filteredTransactions = useMemo(() =>
+        transactions.filter(transaction => transaction.date.slice(0, 7) === selectedMonth),
+        [transactions, selectedMonth]
     );
-
     // compute totals by category for this month
-    const categoryTotals = filteredTransactions.reduce(
-        (totals, transaction) => {
-            totals[transaction.category] =
-                (totals[transaction.category] || 0) + transaction.amount;
+    const categoryTotals = useMemo(() =>
+        filteredTransactions.reduce((totals, transaction) => {
+            totals[transaction.category] = (totals[transaction.category] || 0) + transaction.amount;
             return totals;
         },
-        { Needs: 0, Wants: 0, Savings: 0 }
+            { Needs: 0, Wants: 0, Savings: 0 }),
+        [filteredTransactions]
     );
 
     // fire to parent / Graph.jsx

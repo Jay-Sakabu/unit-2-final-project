@@ -1,27 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import TransactionHistory from "./TransactionHistory";
 import NetWorth from "./NetWorth.jsx";
 import "../../BudgetDashboard.css";
 import Budget from "./Budget.jsx";
 import Graph from "./Graph.jsx";
 
-// Placeholder Monthly Spending Component 
-// TODO: Make this component functional and add it to components also make it a list because that's the one requirement not yet fulfilled
-const MonthlySpending = () => (
-    <div className="dashboard-box">
-        <h2>Monthly Spending</h2>
-        <p>Total: $1,425</p>
-        <ul>
-            <li>Food: $345</li>
-            <li>Rent: $953</li>
-            <li>Other: $127</li>
-        </ul>
-    </div>
-);
-
 
 const BudgetDashboard = () => {
     const [budget, setBudget] = useState(null);
+    const [allTransactions, setAllTransactions] = useState([]);
+    const [categoryTotals, setCategoryTotals] = useState({
+        Needs: 0,
+        Wants: 0,
+        Savings: 0,
+    });
+
+    const budgetTargets = useMemo(() => {
+        if (!budget) {
+            return { Needs: 0, Wants: 0, Savings: 0 };
+        }
+        return {
+            Needs: budget.needs,
+            Wants: budget.wants,
+            Savings: budget.savings,
+        };
+    }, [budget]);
 
     useEffect(() => {
         const stored = localStorage.getItem("user-budget");
@@ -29,6 +32,27 @@ const BudgetDashboard = () => {
             setBudget(JSON.parse(stored));
         }
     }, []);
+
+    //TODO: Replace w/ endpoint
+    useEffect(() => {
+        const storedTransactions = localStorage.getItem("transactions");
+        setAllTransactions(storedTransactions ? JSON.parse(storedTransactions) : []);
+    }, []);
+
+    const actualSpendingWithUnallocated = useMemo(() => {
+        if (!budget) {
+            return { ...categoryTotals, Unallocated: 0 };
+        }
+        const spent =
+            (categoryTotals.Needs || 0) +
+            (categoryTotals.Wants || 0) +
+            (categoryTotals.Savings || 0);
+        return {
+            ...categoryTotals,
+            Unallocated: Math.max(0, budget.monthlyIncome - spent),
+        };
+    }, [categoryTotals, budget])
+
     return (
         <div>
 
@@ -40,16 +64,26 @@ const BudgetDashboard = () => {
             </div>
             <div className="budget-dashboard">
                 <div className="row">
-                    <TransactionHistory />
+                    <TransactionHistory
+                        transactions={allTransactions}
+                        setTransactions={setAllTransactions}
+                        onCategoryTotals={setCategoryTotals}
+                    />
                 </div>
-                <div className="row">
-                    <MonthlySpending />
-                </div>
+
                 <div className="row">
                     <NetWorth />
                 </div>
             </div>
-
+            <div className="budget-dashboard">
+                <div className="row">
+                    <div className="row">
+                        <Graph actualSpending={actualSpendingWithUnallocated}
+                            budgetTargets={budgetTargets}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
