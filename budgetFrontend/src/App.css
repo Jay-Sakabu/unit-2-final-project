@@ -95,6 +95,8 @@ body,
 h1,
 h2 {
   text-align: center;
+  color: var(--accent);
+  transition: color 0.5s ease-in-out;
 }
 
 /* Home page  */
@@ -173,15 +175,15 @@ h2 {
     background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 
   &:nth-child(1) {
-    background: var(--card1-bg);
+    background-color: var(--card1-bg);
   }
 
   &:nth-child(2) {
-    background: var(--card2-bg);
+    background-color: var(--card2-bg);
   }
 
   &:nth-child(3) {
-    background: var(--card3-bg);
+    background-color: var(--card3-bg);
   }
 }
 
