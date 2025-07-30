@@ -2,8 +2,6 @@
 html,
 body,
 #root {
-  transition: background-color 0.5s ease-in-out,
-  color 0.5s ease-in-out;
   background-color: var(--bg);
   color: var(--fg);
   height: 100%;
@@ -11,16 +9,74 @@ body,
   padding: 0;
 }
 
-:root {
-  --bg: #b6fffe;
-  --fg: #000000;
-  --accent: #242424;
+/* Animation for dark/light mode transition */
+*,
+*::before,
+*::after {
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out,
+    border-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
 }
 
+/* Light mode Colors*/
+:root {
+  /* basics */
+  --bg: #dbdbdb;
+  --fg: rgb(63, 63, 32);
+  --accent: #000000;
+
+  /* sidebar */
+  --nav-bg: #dbdcb0;
+  --nav-text: #000000;
+
+  /* cards */
+  --card1-bg: #86a700;
+  --card2-bg: #a2cb0d;
+  --card3-bg: #bcff25;
+  --card-text: var(--accent);
+
+  /* about & dashboard boxes */
+  --content-bg: #cccc99;
+  --content-text: #000000;
+
+  /* footer */
+  --footer-bg: #9b9b9b;
+  --footer-text: #000000;
+
+  /* links */
+  --link-color: #000000;
+  --link-hover: #ffff00;
+  --active-link-bg: #0000ff;
+}
+
+/* Dark mode Colors*/
 [data-theme="dark"] {
+  /* page basics */
   --bg: #242424;
   --fg: rgb(192, 192, 223);
   --accent: #ffffff;
+
+  /* sidebar */
+  --nav-bg: #24234f;
+  --nav-text: #ffffff;
+
+  /* cards */
+  --card1-bg: #7958ff;
+  --card2-bg: #5d34f2;
+  --card3-bg: #4300da;
+  --card-text: var(--accent);
+
+  /* about & dashboard boxes */
+  --content-bg: #333366;
+  --cont-text: #ffffff;
+
+  /* footer */
+  --footer-bg: rgb(100, 100, 100);
+  --footer-text: #ffffff;
+
+  /* links */
+  --link-color: #ffffff;
+  --link-hover: blue;
+  --active-link-bg: yellow;
 }
 
 h1,
@@ -54,9 +110,9 @@ h2 {
   overflow: hidden;
   display: flex;
   flex: 0 0 100%;
-  /* &:hover .group{
+  &:hover .group {
     animation-play-state: paused;
-  } */
+  }
 }
 
 .group {
@@ -100,18 +156,18 @@ h2 {
   align-items: center;
   min-height: 200px;
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 
   &:nth-child(1) {
-    background: #7958ff;
+    background: var(--card1-bg);
   }
 
   &:nth-child(2) {
-    background: #5d34f2;
+    background: var(--card2-bg);
   }
 
   &:nth-child(3) {
-    background: #4300da;
+    background: var(--card3-bg);
   }
 }
 
@@ -127,19 +183,19 @@ h2 {
 }
 
 .about-page h1 {
-  color: white;
+  color: var(--content-text);
   font-family: "Times New Roman", Times, serif;
 }
 
 .about-page p {
-  color: white;
+  color: var(--content-text);
   text-align: center;
   font-size: large;
   font-family: Verdana;
 }
 
 .about-page-text {
-  background-color: #333366;
+  background-color: var(--content-bg);
   padding: 1rem;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -147,7 +203,7 @@ h2 {
 
 /* Navbar / Hamburger menu CSS */
 .side-navbar {
-  background-color: #24234f;
+  background-color: var(--nav-bg);
   padding: 2rem 1rem;
   min-width: 100px;
   height: 100vh;
@@ -164,7 +220,7 @@ h2 {
   background: none;
   border: none;
   font-size: 2rem;
-  color: white;
+  color: var(--accent);
   cursor: pointer;
   margin-top: 10px;
 }
@@ -176,18 +232,18 @@ h2 {
 }
 
 .link-styling {
-  color: rgb(255, 255, 255);
+  color: var(--link-color);
   text-decoration: none;
   font-weight: bold;
   display: block;
   margin-top: 10px;
   &:hover {
-    color: blue;
+    color: var(--link-hover);
   }
 }
 
 .active-link {
-  background-color: yellow;
+  background-color: var(--active-link-bg);
   text-decoration: none;
   font-weight: bold;
   display: block;
@@ -197,7 +253,7 @@ h2 {
 /* Footer CSS */
 
 .footer {
-  background-color: rgb(100, 100, 100);
+  background-color: var(--footer-bg);
   /* background-color: #24234f; */
   padding: 1rem;
   /* border-top: 1px solid #ddd; */
@@ -208,7 +264,7 @@ h2 {
 .footer a {
   text-decoration: none;
   padding-left: 5px;
-  color: rgb(255, 255, 255);
+  color: var(--footer-text);
   font-size: large;
 }
 
@@ -241,6 +297,63 @@ h2 {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+/* Budget & Financial Summary CSS */
+
+.budget-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: auto auto;
+  grid-gap: 2rem;
+  padding: 2rem;
+}
+
+.dashboard-box {
+  background-color: var(--content-bg);
+  color: var(--content-text);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  margin-top: 2%;
+}
+
+.dashboard-box p {
+  text-align: center;
+}
+
+.dashboard-box input {
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+.budget-breakdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.budget-breakdown-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.budget-breakdown-row div {
+  flex: 1;
+  min-width: 80px;
+}
+
+.large-text {
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 /* Mobile only CSS */
@@ -287,6 +400,14 @@ h2 {
   .main-content {
     margin-left: 0;
     margin-top: 0;
+  }
+
+  /* Budget Dashboard */
+  @media (max-width: 768px) {
+    .budget-dashboard {
+      grid-template-columns: 1fr;
+      margin-left: 0;
+    }
   }
 
   .footer {
@@ -341,5 +462,19 @@ h2 {
 
   .nav-links a {
     font-size: 1rem;
+  }
+
+  // Budget Dashboard
+  @media (max-width: 600px) {
+    .budget-dashboard {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+      grid-gap: 1rem;
+    }
+
+    .dashboard-box {
+      padding: 1rem;
+      margin-top: 1rem;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import TransactionHistory from "./TransactionHistory";
 import NetWorth from "./NetWorth.jsx";
-import "../../BudgetDashboard.css";
+import "../../App.css";
 import Budget from "./Budget.jsx";
 import Graph from "./Graph.jsx";
 
