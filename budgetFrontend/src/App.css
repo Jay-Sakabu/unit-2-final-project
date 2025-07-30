@@ -20,22 +20,23 @@ body,
 /* Light mode Colors*/
 :root {
   /* basics */
-  --bg: #dbdbdb;
+  --bg: #e8f5e4;
   --fg: rgb(63, 63, 32);
   --accent: #000000;
 
   /* sidebar */
-  --nav-bg: #dbdcb0;
+  --nav-bg: #eff0be;
   --nav-text: #000000;
 
   /* cards */
-  --card1-bg: #86a700;
-  --card2-bg: #a2cb0d;
-  --card3-bg: #bcff25;
+  --card1-bg: #b0d5e2;
+  --card2-bg: #138181;
+  --card3-bg: #78b7cd;
   --card-text: var(--accent);
+  --shadow-color: rgba(0, 0, 0, 0.1);
 
   /* about & dashboard boxes */
-  --content-bg: #cccc99;
+  --content-bg: #eeeeaf;
   --content-text: #000000;
 
   /* footer */
@@ -44,8 +45,8 @@ body,
 
   /* links */
   --link-color: #000000;
-  --link-hover: #ffff00;
-  --active-link-bg: #0000ff;
+  --link-hover: #f08080;
+  --active-link-bg: #f08080;
 }
 
 /* Dark mode Colors*/
@@ -64,6 +65,7 @@ body,
   --card2-bg: #5d34f2;
   --card3-bg: #4300da;
   --card-text: var(--accent);
+  --shadow-color: white; 
 
   /* about & dashboard boxes */
   --content-bg: #333366;
@@ -144,7 +146,7 @@ h2 {
   /* width: 100%; MIGHT NEED THIS WHEN SWITCHED TO IMAGES*/
   flex: 0 0 200px;
   margin-right: 20px; /* spacing between cards */
-  color: white;
+  color: var(--card-text);
   border-radius: 24px;
   box-shadow: rgba(0, 0, 0, 0.1) 5px 5px 20px 0;
   padding: 20px;
@@ -254,9 +256,7 @@ h2 {
 
 .footer {
   background-color: var(--footer-bg);
-  /* background-color: #24234f; */
   padding: 1rem;
-  /* border-top: 1px solid #ddd; */
   text-align: center;
   min-height: 50px;
 }
