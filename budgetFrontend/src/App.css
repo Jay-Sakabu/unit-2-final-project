@@ -1,27 +1,44 @@
 /* Root / Whole element selectors */
-html, body, #root {
-  background-color: #242424;
-  color: rgb(192, 192, 223);
+html,
+body,
+#root {
+  transition: background-color 0.5s ease-in-out,
+  color 0.5s ease-in-out;
+  background-color: var(--bg);
+  color: var(--fg);
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-h1, h2{
+:root {
+  --bg: #b6fffe;
+  --fg: #000000;
+  --accent: #242424;
+}
+
+[data-theme="dark"] {
+  --bg: #242424;
+  --fg: rgb(192, 192, 223);
+  --accent: #ffffff;
+}
+
+h1,
+h2 {
   text-align: center;
 }
 
 /* Home page  */
-.home-page{
+.home-page {
   padding-top: 50px;
   opacity: 1;
-	animation-name: fadeInOpacity;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
-	animation-duration: 0.8s;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.8s;
 }
 
-@keyframes fadeInOpacity{
+@keyframes fadeInOpacity {
   0% {
     opacity: 0;
   }
@@ -30,7 +47,7 @@ h1, h2{
   }
 }
 
-.home-page-photo-carousel{
+.home-page-photo-carousel {
   margin: 0 auto;
   padding: 20px 0;
   max-width: 800px;
@@ -68,7 +85,7 @@ h1, h2{
 }
 
 .card {
-  /* width: 100%; MIGHT NEED THIS WHEN SWITCHED TO IMAGES*/ 
+  /* width: 100%; MIGHT NEED THIS WHEN SWITCHED TO IMAGES*/
   flex: 0 0 200px;
   margin-right: 20px; /* spacing between cards */
   color: white;
@@ -98,22 +115,20 @@ h1, h2{
   }
 }
 
-
 .card:hover {
   transform: translateY(-10px);
   box-shadow: rgba(0, 0, 0, 0.25) 10px 10px 30px 0;
 }
 
-
 /* About Page CSS */
-.about-page{
+.about-page {
   width: 40%;
   margin: auto;
 }
 
-.about-page h1{
+.about-page h1 {
   color: white;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .about-page p {
@@ -123,7 +138,7 @@ h1, h2{
   font-family: Verdana;
 }
 
-.about-page-text{
+.about-page-text {
   background-color: #333366;
   padding: 1rem;
   border-radius: 16px;
@@ -166,12 +181,12 @@ h1, h2{
   font-weight: bold;
   display: block;
   margin-top: 10px;
-  &:hover{
-    color:blue;
+  &:hover {
+    color: blue;
   }
 }
 
-.active-link{
+.active-link {
   background-color: yellow;
   text-decoration: none;
   font-weight: bold;
@@ -190,7 +205,7 @@ h1, h2{
   min-height: 50px;
 }
 
-.footer a{
+.footer a {
   text-decoration: none;
   padding-left: 5px;
   color: rgb(255, 255, 255);
@@ -203,6 +218,8 @@ h1, h2{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* TODO: USE OR REMOVE */
+  /* background-image: url("./assets/background-img.jpeg"); */
 }
 
 .main-content {
@@ -215,15 +232,15 @@ h1, h2{
 
 #budget-form .income-types-group {
   display: flex;
-  gap: 1rem;           
-  align-items: center; 
-  margin-bottom: 1rem; 
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 #budget-form .income-types-option {
   display: flex;
   align-items: center;
-  gap: 0.25rem; 
+  gap: 0.25rem;
 }
 
 /* Mobile only CSS */
@@ -239,7 +256,7 @@ h1, h2{
     border-bottom: 1px solid #ddd;
   }
 
-    .hamburger {
+  .hamburger {
     display: block;
   }
 
@@ -263,7 +280,7 @@ h1, h2{
     flex-direction: column;
   }
 
-  img{
+  img {
     max-width: 100%;
   }
 
@@ -272,7 +289,7 @@ h1, h2{
     margin-top: 0;
   }
 
-  .footer{
+  .footer {
     width: 100%;
   }
 }
@@ -280,7 +297,8 @@ h1, h2{
 /* Very Small devices */
 
 @media (max-width: 600px) {
-  h1, h2 {
+  h1,
+  h2 {
     font-size: 1.5rem;
   }
 
@@ -315,7 +333,6 @@ h1, h2{
 
   .footer {
     font-size: 0.9rem;
-    padding: 0.75rem;
   }
 
   .side-navbar {

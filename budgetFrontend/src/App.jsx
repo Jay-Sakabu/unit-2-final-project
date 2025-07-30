@@ -1,4 +1,5 @@
 import './App.css'
+import { useState, useEffect } from 'react'
 import Header from './components/universal-components/Header'
 import Footer from './components/universal-components/Footer'
 import About from './Pages/About'
@@ -7,15 +8,27 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router'
 import Home from './Pages/Home'
 import ViewBudget from './Pages/ViewBudget'
 
-//TODO: Change some naming conventions, ViewBudget is more of a financial overview with a budget 'feature'
-//looking at some of the names is a headache
-
+// https://dev.to/abbeyperini/toggle-dark-mode-in-react-28c9
 function App() {
+  const [theme, setTheme] = useState(() => {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme)
+      return storedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark').matches ? 'dark' : 'light';
+  });
 
+  // on theme change, update html
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () =>
+    setTheme(currentTheme => (currentTheme === 'dark' ? 'light' : 'dark'));
   return (
     <Router>
       <div className='app-container'>
-        <Header />
+        <Header onToggleTheme={toggleTheme} currentTheme={theme} />
         <main className='main-content'>
           <Routes>
             <Route path="/" element={<Home />} />

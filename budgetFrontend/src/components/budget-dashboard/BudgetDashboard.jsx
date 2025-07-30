@@ -15,6 +15,8 @@ const BudgetDashboard = () => {
         Savings: 0,
     });
 
+    // Added to cache budgetTargets, can't think of a reason why the graph would re-render this, but want to avoid that mistake again
+    // https://react.dev/learn/you-might-not-need-an-effect
     const budgetTargets = useMemo(() => {
         if (!budget) {
             return { Needs: 0, Wants: 0, Savings: 0 };
@@ -58,7 +60,7 @@ const BudgetDashboard = () => {
 
             <div className="budget-dashboard">
                 <div className="row">
-                    <Budget propBudget={budget}/>
+                    <Budget propBudget={budget} />
                 </div>
 
             </div>
@@ -77,15 +79,15 @@ const BudgetDashboard = () => {
             </div>
             {/* Conditional rendering, if no budget, don't show the empty graphs */}
             {budget && (
-            <div className="budget-dashboard">
-                <div className="row">
+                <div className="budget-dashboard">
                     <div className="row">
-                        <Graph actualSpending={actualSpendingWithUnallocated}
-                            budgetTargets={budgetTargets}
-                        />
+                        <div className="row">
+                            <Graph actualSpending={actualSpendingWithUnallocated}
+                                budgetTargets={budgetTargets}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
             )}
         </div>
     );

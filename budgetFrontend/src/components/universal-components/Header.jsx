@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router';
 import { useState } from 'react';
 
-const Header = () => {
+const Header = ({ onToggleTheme, currentTheme }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div className='side-navbar'>
@@ -12,6 +12,12 @@ const Header = () => {
                     aria-label="Toggle menu"
                 >
                     ☰
+                </button>
+                <button
+                    aria-label="Toggle light/dark mode"
+                    onClick={onToggleTheme}
+                >
+                    {currentTheme === 'dark' ? 'Light mode' : 'Dark mode'}
                 </button>
                 <div className={`nav-links ${menuOpen ? "open" : ""}`}>
                     {/* Check if link is active, if so: give link active-link CSS class */}
