@@ -1,13 +1,21 @@
 import { useState, useEffect, useMemo } from "react";
 import transactionsData from "../../assets/transactions.json";
 
-// Helper function to noramlize dates, previous iteration allowed for blank date entries, parsing blanks using slice() on those entries would cause crashes
-function noramlizeDateString(date) {
+// Helper function to normalize dates, previous iteration allowed for blank date entries, parsing blanks using slice() on those entries would cause crashes
+function normalizeDateString(date) {
     const parsedDate = new Date(date);
-    if (typeof date !== "string" || isNaN(parsedDate.getTime())) {
-        return "";
+    if (isNaN(parsedDate.getTime())) {
+        return ""; // Return empty if invalid date
     }
-    return parsedDate.toISOString().slice(0, 7);
+    return parsedDate.toISOString().slice(0, 7); // Ensure it returns 'YYYY-MM' format
+}
+
+// Helper function to display dates in "(Month) (Year) Format"
+const formatMonthYear = (monthString) => {
+    const [year, month] = monthString.split("-"); // Split monthString into year and month, they're separated by "-"
+    const date = new Date(Number(year), Number(month) - 1); // Subtract 1 from "month", the months from Date are zero based
+    const monthAndYear = { year: 'numeric', month: 'long' };
+    return date.toLocaleDateString(undefined, monthAndYear);
 }
 
 // Main Function
@@ -33,7 +41,7 @@ const TransactionHistory = ({ onCategoryTotals }) => {
         let initial = storedTransactions ? JSON.parse(storedTransactions) : transactionsData;
         const sanitizedData = initial.map((transaction) => ({
             ...transaction,
-            date: noramlizeDateString(transaction.date),
+            date: normalizeDateString(transaction.date),
         }));
         setTransactions(sanitizedData);
         if (!storedTransactions) {
@@ -251,39 +259,42 @@ const TransactionHistory = ({ onCategoryTotals }) => {
                 </button>
             </form>
 
-
-            {/* Transactions table with editable and static rows */}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>Amount</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredTransactions.map((transaction, index) =>
-                        editingIndex === index ? (
-                            <EditableRow
-                                key={index}
-                                form={editForm}
-                                onChange={handleEditChange}
-                                onSave={handleSaveEdit}
-                                onCancel={cancelEdit}
-                            />
-                        ) : (
-                            <ReadOnlyRow
-                                key={index}
-                                transaction={transaction}
-                                onEdit={() => startEdit(index)}
-                                onDelete={() => handleDelete(index)}
-                            />
-                        )
-                    )}
-                </tbody>
-            </table>
+            {/* If no transaction display placeholder */}
+            {filteredTransactions.length === 0 ? (
+                <p>No transactions for {formatMonthYear(selectedMonth)}!</p>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredTransactions.map((transaction, index) =>
+                            editingIndex === index ? (
+                                <EditableRow
+                                    key={index}
+                                    form={editForm}
+                                    onChange={handleEditChange}
+                                    onSave={handleSaveEdit}
+                                    onCancel={cancelEdit}
+                                />
+                            ) : (
+                                <ReadOnlyRow
+                                    key={index}
+                                    transaction={transaction}
+                                    onEdit={() => startEdit(index)}
+                                    onDelete={() => handleDelete(index)}
+                                />
+                            )
+                        )}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };
