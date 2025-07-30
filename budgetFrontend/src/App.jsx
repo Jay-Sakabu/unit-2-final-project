@@ -17,6 +17,7 @@ function App() {
     return window.matchMedia('(prefers-color-scheme: dark').matches ? 'dark' : 'light';
   });
 
+  //TODO: Change document so we're not directly grabbing from DOM, tutorial has steps on how to do this
   // on theme change, update html
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);

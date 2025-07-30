@@ -18,6 +18,7 @@ body,
 }
 
 /* Light mode Colors*/
+/* Inspiration https://www.color-hex.com/color-palette/112595 & https://www.color-hex.com/color-palette/1012609*/
 :root {
   /* basics */
   --bg: #e8f5e4;
@@ -47,6 +48,11 @@ body,
   --link-color: #000000;
   --link-hover: #f08080;
   --active-link-bg: #f08080;
+
+  /* pie slices */
+  --pie-needs: rgb(234, 88, 119);
+  --pie-wants: rgb(57, 169, 243);
+  --pie-savings: rgb(248, 194, 57);
 }
 
 /* Dark mode Colors*/
@@ -65,7 +71,7 @@ body,
   --card2-bg: #5d34f2;
   --card3-bg: #4300da;
   --card-text: var(--accent);
-  --shadow-color: white; 
+  --shadow-color: rgb(68, 80, 114);
 
   /* about & dashboard boxes */
   --content-bg: #333366;
@@ -77,8 +83,13 @@ body,
 
   /* links */
   --link-color: #ffffff;
-  --link-hover: blue;
+  --link-hover: yellow;
   --active-link-bg: yellow;
+
+  /* pie slices */
+  --pie-needs: #632734ff;
+  --pie-wants: #143d58ff;
+  --pie-savings: #72591aff;
 }
 
 h1,
@@ -148,7 +159,7 @@ h2 {
   margin-right: 20px; /* spacing between cards */
   color: var(--card-text);
   border-radius: 24px;
-  box-shadow: rgba(0, 0, 0, 0.1) 5px 5px 20px 0;
+  box-shadow: var(--shadow-color) 5px 5px 20px 0;
   padding: 20px;
   font-size: xx-large;
   display: flex;
@@ -158,7 +169,8 @@ h2 {
   align-items: center;
   min-height: 200px;
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 
   &:nth-child(1) {
     background: var(--card1-bg);
