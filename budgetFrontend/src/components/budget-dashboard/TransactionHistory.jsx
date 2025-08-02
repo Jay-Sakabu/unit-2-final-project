@@ -21,8 +21,9 @@ const formatMonthYear = (monthString) => {
 // Main Function
 const TransactionHistory = ({ onCategoryTotals }) => {
     const [transactions, setTransactions] = useState([]);
-    const [editingIndex, setEditingIndex] = useState(null);
+    const [editingId, setEditingId] = useState(null);
     const [editForm, setEditForm] = useState({
+        id: null,
         description: "",
         amount: 0,
         date: "",
@@ -35,12 +36,14 @@ const TransactionHistory = ({ onCategoryTotals }) => {
         new Date().toISOString().slice(0, 7)
     );
 
-    // Check if there is a local transactions data, if so parse that data, else use the stored sample data
+    // Using Date.now() here because it always generates a number, and can use it as an id reliably without worrying about user-side collisions. Concerned about backend collisions if multiple users try to edit/add at the same time
+    // Might need to revise how transactions are stored in the future
     useEffect(() => {
         const storedTransactions = localStorage.getItem("transactions");
         let initial = storedTransactions ? JSON.parse(storedTransactions) : transactionsData;
         const sanitizedData = initial.map((transaction) => ({
             ...transaction,
+            id: transaction.id ?? Date.now(),              // ensure an id exists
             date: normalizeDateString(transaction.date),
         }));
         setTransactions(sanitizedData);
@@ -56,28 +59,25 @@ const TransactionHistory = ({ onCategoryTotals }) => {
         console.log(updatedTransactions);
     };
 
-    // Loop through transactions, as long as i is not the indexToDelete, push that entry to an updated transactions array
-    const handleDelete = (indexToDelete) => {
-        const updatedTransactions = [];
-        for (let i = 0; i < transactions.length; i++) {
-            if (i !== indexToDelete) {
-                updatedTransactions.push(transactions[i]);
-            }
-        }
+    // Filter transactions and then Delete by id
+    const handleDelete = (idToDelete) => {
+        const updatedTransactions = transactions.filter((transaction) => transaction.id !== idToDelete);
         setTransactions(updatedTransactions);
         saveToLocal(updatedTransactions);
     };
 
-    // Start editing: set index and fill the edit form with its transaction data
-    const startEdit = (indexToEdit) => {
-        setEditingIndex(indexToEdit);
-        setEditForm(transactions[indexToEdit]);
+    // Start editing by id and fill the edit form with its transaction data
+    const startEdit = (idToEdit) => {
+        const transaction = transactions.find((transaction) => transaction.id === idToEdit);
+        setEditingId(idToEdit);
+        setEditForm({ ...transaction });
     };
 
     // Cancel editing and reset form state
     const cancelEdit = () => {
-        setEditingIndex(null);
+        setEditingId(null);
         setEditForm({
+            id: null,
             description: "",
             amount: 0,
             date: "",
@@ -93,22 +93,24 @@ const TransactionHistory = ({ onCategoryTotals }) => {
 
     // Save the edited transaction and save to localStorage
     const handleSaveEdit = () => {
+        const index = transactions.findIndex((transaction) => transaction.id === editingId);
         const updatedTransactions = [...transactions];
-        updatedTransactions[editingIndex] = {
+        updatedTransactions[index] = {
             ...editForm,
             amount: parseFloat(editForm.amount),
+            date: normalizeDateString(editForm.date),
         };
         setTransactions(updatedTransactions);
         saveToLocal(updatedTransactions);
         cancelEdit();
     };
 
+    // Add new
     const handleAddTransaction = (event) => {
         event.preventDefault();
-        const transactionDate = selectedMonth;
-
         const newTransaction = {
-            date: transactionDate,
+            id: Date.now(),
+            date: selectedMonth,
             description: newDescription,
             amount: parseFloat(newAmount),
             category: newCategory,
@@ -124,14 +126,14 @@ const TransactionHistory = ({ onCategoryTotals }) => {
     // only show the month the user has picked & use memoization to cache results
     // Previously ran into error "Maximum update depth exceeded, caused by calling setState inside useEffect"
     const filteredTransactions = useMemo(() =>
-        transactions.filter(transaction => transaction.date.slice(0, 7) === selectedMonth),
+        transactions.filter((transaction) => transaction.date === selectedMonth),
         [transactions, selectedMonth]
     );
     // compute totals by category for this month
     const categoryTotals = useMemo(() =>
-        filteredTransactions.reduce((totals, transaction) => {
-            totals[transaction.category] = (totals[transaction.category] || 0) + transaction.amount;
-            return totals;
+            filteredTransactions.reduce((totals, transaction) => {
+                totals[transaction.category] = (totals[transaction.category] || 0) + transaction.amount;
+                return totals;
         },
             { Needs: 0, Wants: 0, Savings: 0 }),
         [filteredTransactions]
@@ -139,16 +141,11 @@ const TransactionHistory = ({ onCategoryTotals }) => {
 
     // fire to parent / Graph.jsx
     useEffect(() => {
-        if (onCategoryTotals) {
-            onCategoryTotals(categoryTotals);
-        }
+        onCategoryTotals && onCategoryTotals(categoryTotals);
     }, [categoryTotals, onCategoryTotals]);
 
     const EditableRow = ({ form, onChange, onSave, onCancel }) => (
         <tr>
-            {/* <td>
-                <input type="date" name="date" value={form.date} onChange={onChange} />
-            </td> */}
             <td>{form.date}</td>
             <td>
                 <input
@@ -274,10 +271,10 @@ const TransactionHistory = ({ onCategoryTotals }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredTransactions.map((transaction, index) =>
-                            editingIndex === index ? (
+                        {filteredTransactions.map((transaction) =>
+                            editingId === transaction.id ? (
                                 <EditableRow
-                                    key={index}
+                                    key={transaction.id}
                                     form={editForm}
                                     onChange={handleEditChange}
                                     onSave={handleSaveEdit}
@@ -285,10 +282,10 @@ const TransactionHistory = ({ onCategoryTotals }) => {
                                 />
                             ) : (
                                 <ReadOnlyRow
-                                    key={index}
+                                    key={transaction.id}
                                     transaction={transaction}
-                                    onEdit={() => startEdit(index)}
-                                    onDelete={() => handleDelete(index)}
+                                    onEdit={() => startEdit(transaction.id)}
+                                    onDelete={() => handleDelete(transaction.id)}
                                 />
                             )
                         )}
