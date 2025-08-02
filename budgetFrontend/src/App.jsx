@@ -17,23 +17,40 @@ function App() {
       return storedTheme;
     return window.matchMedia('(prefers-color-scheme: dark').matches ? 'dark' : 'light';
   });
-
   const [user, setUser] = useState(() =>
-    JSON.parse(localStorage.getItem("user")));
+    JSON.parse(localStorage.getItem('user'))
+  );
 
-  //TODO: Change document so we're not directly grabbing from DOM, tutorial has steps on how to do this
-  // on theme change, update html
+  // Sync the HTML data-theme attribute & localStorage
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () =>
-    setTheme(currentTheme => (currentTheme === 'dark' ? 'light' : 'dark'));
-  return user ? (
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+
+  // Called by AuthForm when login or register succeeds
+  const handleLogin = (loggedInUser) => {
+    localStorage.setItem('user', JSON.stringify(loggedInUser));
+    setUser(loggedInUser);
+  };
+
+  // Called by Header when logout button is clicked
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
+  // If not logged in, show only the AuthForm (with onLogin prop)
+  if (!user) {
+    return <AuthForm onLogin={handleLogin} />;
+  }
+
+  return (
     <Router>
       <div className='app-container'>
-        <Header onToggleTheme={toggleTheme} currentTheme={theme} />
+        <Header onToggleTheme={toggleTheme} currentTheme={theme} onLogout={handleLogout} />
         <main className='main-content'>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -45,8 +62,6 @@ function App() {
       </div>
       <Footer />
     </Router>
-  ) : (
-    <AuthForm />
   );
 }
 

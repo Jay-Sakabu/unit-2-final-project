@@ -1,8 +1,14 @@
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { useState } from 'react';
 
-const Header = ({ onToggleTheme, currentTheme }) => {
+const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogoutClick = () => {
+        onLogout();
+        navigate("/");
+    }
     return (
         <div className='side-navbar'>
             <nav>
@@ -25,7 +31,10 @@ const Header = ({ onToggleTheme, currentTheme }) => {
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/budget">Create Budget</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/ViewBudgets">Financial Info</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/about">About</NavLink>
-                </div>
+
+                    <button className="link-styling" onClick={handleLogoutClick} style={{ background: "none", border: "none", cursor: "pointer" }}>
+                        Logout
+                    </button></div>
             </nav>
         </div>
     );
