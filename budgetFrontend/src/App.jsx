@@ -7,6 +7,7 @@ import BudgetForm from './Pages/CreateBudgetPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router'
 import Home from './Pages/Home'
 import ViewBudget from './Pages/ViewBudget'
+import AuthForm from './components/forms/AuthForm'
 
 // https://dev.to/abbeyperini/toggle-dark-mode-in-react-28c9
 function App() {
@@ -17,6 +18,9 @@ function App() {
     return window.matchMedia('(prefers-color-scheme: dark').matches ? 'dark' : 'light';
   });
 
+  const [user, setUser] = useState(() =>
+    JSON.parse(localStorage.getItem("user")));
+
   //TODO: Change document so we're not directly grabbing from DOM, tutorial has steps on how to do this
   // on theme change, update html
   useEffect(() => {
@@ -26,7 +30,7 @@ function App() {
 
   const toggleTheme = () =>
     setTheme(currentTheme => (currentTheme === 'dark' ? 'light' : 'dark'));
-  return (
+  return user ? (
     <Router>
       <div className='app-container'>
         <Header onToggleTheme={toggleTheme} currentTheme={theme} />
@@ -41,7 +45,9 @@ function App() {
       </div>
       <Footer />
     </Router>
-  )
+  ) : (
+    <AuthForm />
+  );
 }
 
 export default App
