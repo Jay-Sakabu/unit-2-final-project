@@ -15,9 +15,9 @@ public class TransactionController {
         this.transactionRepository = transactionRepository;
     }
 
-    @GetMapping("/transactions")
-    public List<Transaction> all() {
-        return transactionRepository.findAll();
+    @GetMapping
+    public List<Transaction> allByUser(@RequestParam Integer userId) {
+        return transactionRepository.findAllByUserId(userId);
     }
 
     @PostMapping("/transactions")
