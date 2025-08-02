@@ -3,7 +3,8 @@ package com.example.demo.repositories;
 import com.example.demo.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
-    // This interface will automatically provide CRUD operations for User entities
-    // No additional methods are needed unless specific queries are required
+    Optional<User> findByEmail(String email);
 }
