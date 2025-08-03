@@ -22,18 +22,18 @@ public class TransactionController {
         return transactionRepository.findAllByUserId(userId);
     }
 
-    @PostMapping("/transactions")
+    @PostMapping
     public Transaction addTransaction(@RequestBody Transaction transaction) {
         return transactionRepository.save(transaction);
     }
 
-    @PutMapping("/transactions/{id}")
+    @PutMapping("/{id}")
     public Transaction updateTransaction(@PathVariable Integer id, @RequestBody Transaction transaction) {
         transaction.setId(id);
         return transactionRepository.save(transaction);
     }
 
-    @DeleteMapping("/transactions/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTransaction(@PathVariable Integer id) {
         transactionRepository.deleteById(id);
     }

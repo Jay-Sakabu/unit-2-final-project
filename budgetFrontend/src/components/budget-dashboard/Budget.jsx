@@ -1,18 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Budget = ({ propBudget }) => {
-    const [budget, setBudget] = useState(propBudget || null);
-
-    useEffect(() => {
-        if (propBudget) {
-            // if a new budget comes in from the form, use it
-            setBudget(propBudget);
-        } else {
-            const stored = localStorage.getItem("user-budget");
-            if (stored) setBudget(JSON.parse(stored));
-        }
-    }, [propBudget]);
-
+const Budget = ({ budget }) => {
     if (!budget) {
         return (
             <div className="dashboard-box">
@@ -23,10 +11,12 @@ const Budget = ({ propBudget }) => {
     }
 
     return (
-        // TODO: Placeholder class-name, needs to be edited to look better
         <div className="dashboard-box">
             <h2>Budget Breakdown</h2>
-            <p>With an average monthly income of: ${budget.monthlyIncome.toFixed(2)}</p>
+            <p>
+                With an average monthly income of: $
+                {budget.monthlyIncome.toFixed(2)}
+            </p>
             <div className="budget-breakdown-wrapper">
                 <div className="budget-breakdown-row large-text">
                     <div>Needs</div>
