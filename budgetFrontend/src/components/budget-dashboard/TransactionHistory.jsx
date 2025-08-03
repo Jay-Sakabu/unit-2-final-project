@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import transactionsData from "../../assets/transactions.json";
 
 // Helper function to normalize dates, previous iteration allowed for blank date entries, parsing blanks using slice() on those entries would cause crashes
 function normalizeDateString(date) {
