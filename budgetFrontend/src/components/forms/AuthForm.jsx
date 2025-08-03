@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import api from "../api-axios/api";
+import { AuthContext } from "../auth-context/AuthContext";
 
-const AuthForm = ({ onLogin }) => {
+const AuthForm = () => {
+    const { login } = useContext(AuthContext);
     const [isRegistering, setIsRegistering] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -10,13 +12,13 @@ const AuthForm = ({ onLogin }) => {
 
     const switchMode = () => {
         setErrorMessage("");
-        setIsRegistering((r) => !r);
+        setIsRegistering(r => !r);
         setName("");
         setEmail("");
         setPassword("");
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
         try {
             let res;
@@ -26,8 +28,9 @@ const AuthForm = ({ onLogin }) => {
                 res = await api.post("/auth/login", { email, password });
             }
             const user = res.data;
-            localStorage.setItem("user", JSON.stringify(user));
-            onLogin(user);
+
+            // Hand over persistence & state to AuthContext
+            login(user);
         } catch (err) {
             console.error(err);
             setErrorMessage(
@@ -40,46 +43,49 @@ const AuthForm = ({ onLogin }) => {
 
     return (
         <div className="auth-box">
-            <h2>{isRegistering ? "Register" : "Login"}</h2>
-            {errorMessage && (
-                <p style={{ color: "red"}}>{errorMessage}</p>
-            )}
-            <form onSubmit={handleSubmit}>
-                {isRegistering && (
+            <div className="dashboard-box">
+
+                <h2>{isRegistering ? "Register" : "Log In"}</h2>
+
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+                <form onSubmit={handleSubmit}>
+                    {isRegistering && (
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    )}
                     <input
-                        type="text"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                )}
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">
-                    {isRegistering ? "Register" : "Log In"}
-                </button>
-            </form>
-            <p>
-                {isRegistering ? "Already have an account?" : "No account yet?"}{" "}
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <button type="submit">
+                        {isRegistering ? "Register" : "Log In"}
+                    </button>
+                </form>
+                <p>
+                    {isRegistering ? "Already have an account?" : "No account yet?"}{" "}
                 <button
                     onClick={switchMode}
                 >
-                    {isRegistering ? "Log In" : "Register"}
-                </button>
-            </p>
+                        {isRegistering ? "Log In" : "Register"}
+                    </button>
+                </p>
+            </div>
         </div>
     );
 };

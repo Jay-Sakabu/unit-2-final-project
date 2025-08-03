@@ -99,6 +99,16 @@ h2 {
   transition: color 0.5s ease-in-out;
 }
 
+/* Login / Register page */
+.auth-box {
+  padding-top: 10%;
+  height: 100%;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+
+}
+
 /* Home page  */
 .home-page {
   padding-top: 50px;
