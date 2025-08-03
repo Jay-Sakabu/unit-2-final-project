@@ -20,12 +20,12 @@ const BudgetDashboard = () => {
     const [error, setError] = useState("");
 
     // Helper to convert server attributes to client attributes, this should really be a component
-    const toUIBudget = srv => ({
-        id: srv.id,
-        needs: srv.needsValue,
-        wants: srv.wantsValue,
-        savings: srv.savingsValue,
-        monthlyIncome: srv.needsValue + srv.wantsValue + srv.savingsValue,
+    const toUIBudget = server => ({
+        id: server.id,
+        needs: server.needsValue,
+        wants: server.wantsValue,
+        savings: server.savingsValue,
+        monthlyIncome: server.needsValue + server.wantsValue + server.savingsValue,
     });
 
     // Load budget from endpoint

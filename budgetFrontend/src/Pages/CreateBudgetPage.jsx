@@ -11,12 +11,12 @@ const CreateBudgetPage = () => {
     const [error, setError] = useState("");
 
     // Helper to turn the server Budget → UI Budget
-    const toUIBudget = srv => ({
-        id: srv.id,
-        needs: srv.needsValue,
-        wants: srv.wantsValue,
-        savings: srv.savingsValue,
-        monthlyIncome: srv.needsValue + srv.wantsValue + srv.savingsValue,
+    const toUIBudget = server => ({
+        id: server.id,
+        needs: server.needsValue,
+        wants: server.wantsValue,
+        savings: server.savingsValue,
+        monthlyIncome: server.needsValue + server.wantsValue + server.savingsValue,
     });
 
     // READ
@@ -29,7 +29,7 @@ const CreateBudgetPage = () => {
                 setBudget(toUIBudget(res.data));
             })
             .catch(err => {
-                if (err.response?.status !== 404) setError("Failed to load budget");
+                console.log("Asset not found, not necessarily an error")
             })
             .finally(() => {
                 setLoading(false)
