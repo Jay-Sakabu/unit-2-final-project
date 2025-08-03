@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Added CORS support for local development
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {

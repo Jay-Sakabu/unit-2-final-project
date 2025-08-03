@@ -5,6 +5,8 @@ import com.example.demo.repositories.BudgetRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// Added CORS support for local development
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
