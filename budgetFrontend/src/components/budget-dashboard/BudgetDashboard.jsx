@@ -1,95 +1,104 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import TransactionHistory from "./TransactionHistory";
 import NetWorth from "./NetWorth.jsx";
 import "../../App.css";
 import Budget from "./Budget.jsx";
 import Graph from "./Graph.jsx";
+import { AuthContext } from "../auth-context/AuthContext.jsx";
+import api from "../api-axios/api.jsx";
 
 
 const BudgetDashboard = () => {
+    const { user } = useContext(AuthContext);
     const [budget, setBudget] = useState(null);
-    const [allTransactions, setAllTransactions] = useState([]);
+    const [transactions, setTransactions] = useState([]);
     const [categoryTotals, setCategoryTotals] = useState({
         Needs: 0,
         Wants: 0,
         Savings: 0,
     });
+    const [error, setError] = useState("");
 
-    // Added to cache budgetTargets, can't think of a reason why the graph would re-render this, but want to avoid that mistake again
-    // https://react.dev/learn/you-might-not-need-an-effect
-    const budgetTargets = useMemo(() => {
-        if (!budget) {
-            return { Needs: 0, Wants: 0, Savings: 0 };
-        }
-        return {
-            Needs: budget.needs,
-            Wants: budget.wants,
-            Savings: budget.savings,
-        };
-    }, [budget]);
+    // Helper to convert server attributes to client attributes, this should really be a component
+    const toUIBudget = srv => ({
+        id: srv.id,
+        needs: srv.needsValue,
+        wants: srv.wantsValue,
+        savings: srv.savingsValue,
+        monthlyIncome: srv.needsValue + srv.wantsValue + srv.savingsValue,
+    });
 
+    // Load budget from endpoint
     useEffect(() => {
-        const stored = localStorage.getItem("user-budget");
-        if (stored) {
-            setBudget(JSON.parse(stored));
-        }
-    }, []);
+        if (!user) return;
+        api
+            .get("/budget/budget", { params: { userId: user.id } })
+            .then(res => setBudget(toUIBudget(res.data)))
+            .catch(() => setError("Could not load budget"));
+    }, [user]);
 
-    //TODO: Replace w/ endpoint
+    // Load transactions
     useEffect(() => {
-        const storedTransactions = localStorage.getItem("transactions");
-        setAllTransactions(storedTransactions ? JSON.parse(storedTransactions) : []);
-    }, []);
+        if (!user) return;
+        api
+            .get("/transactions", { params: { userId: user.id } })
+            .then(response => setTransactions(response.data))
+            .catch(() => setError("Could not load transactions"));
+    }, [user]);
+
+    // Recalcualte the category totals
+    useEffect(() => {
+        const totals = transactions.reduce((acc, tx) => {
+            acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
+            return acc;
+        }, {});
+        setCategoryTotals({
+            Needs: totals.Needs || 0,
+            Wants: totals.Wants || 0,
+            Savings: totals.Savings || 0
+        });
+    }, [transactions]);
+
+    const budgetTargets = useMemo(() => ({
+        Needs: budget?.needs || 0,
+        Wants: budget?.wants || 0,
+        Savings: budget?.savings || 0,
+    }), [budget]);
 
     const actualSpendingWithUnallocated = useMemo(() => {
-        if (!budget) {
-            return { ...categoryTotals, Unallocated: 0 };
-        }
-        const spent =
-            (categoryTotals.Needs || 0) +
-            (categoryTotals.Wants || 0) +
-            (categoryTotals.Savings || 0);
+        const spent = (categoryTotals.Needs || 0)
+            + (categoryTotals.Wants || 0)
+            + (categoryTotals.Savings || 0);
         return {
             ...categoryTotals,
-            Unallocated: Math.max(0, budget.monthlyIncome - spent),
+            Unallocated: Math.max(0, (budget?.monthlyIncome || 0) - spent),
         };
-    }, [categoryTotals, budget])
+    }, [categoryTotals, budget]);
+
+    if (!user) return null;
 
     return (
         <div>
+            <div className="budget-dashboard">
+                <Budget budget={budget} />
+            </div>
 
             <div className="budget-dashboard">
-                <div className="row">
-                    <Budget propBudget={budget} />
-                </div>
-
+                <TransactionHistory
+                    transactions={transactions}
+                    setTransactions={setTransactions}
+                    onCategoryTotals={setCategoryTotals}
+                />
+                <NetWorth />
+                <NetWorth />
             </div>
-            <div className="budget-dashboard">
-                <div className="row">
-                    <TransactionHistory
-                        transactions={allTransactions}
-                        setTransactions={setAllTransactions}
-                        onCategoryTotals={setCategoryTotals}
-                    />
-                </div>
 
-                <div className="row">
-                    <NetWorth />
-                </div>
-                <div className="row">
-                    <NetWorth />
-                </div>
-            </div>
-            {/* Conditional rendering, if no budget, don't show the empty graphs */}
             {budget && (
                 <div className="budget-dashboard">
-                    <div className="row">
-                        <div className="row">
-                            <Graph actualSpending={actualSpendingWithUnallocated}
-                                budgetTargets={budgetTargets}
-                            />
-                        </div>
-                    </div>
+                    <Graph
+                        actualSpending={actualSpendingWithUnallocated}
+                        budgetTargets={budgetTargets}
+                    />
                 </div>
             )}
         </div>
