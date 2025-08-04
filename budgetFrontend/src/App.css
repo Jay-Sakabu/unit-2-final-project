@@ -349,7 +349,6 @@ h2 {
 }
 
 .card {
-  /* width: 100%; MIGHT NEED THIS WHEN SWITCHED TO IMAGES*/
   flex: 0 0 200px;
   margin-right: 20px; /* spacing between cards */
   color: var(--card-text);

@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+/*
+ *      A transaction in the context of this application represents a financial record, recording a user's spending.
+ *      Each transaction is associated with a user and categorized into one of three main categories: Needs, Wants, or Savings.
+ *      A user may have multiple transactions, but each transaction is linked to a single user via a many-to-one relationship.
+ */
 
-//Transaction model representing a financial transaction for a user
-// It includes fields for user, category, date, amount, and description
 @Entity
 @Table(name = "transactions")
 public class Transaction {

@@ -2,6 +2,11 @@ package com.example.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+/*
+ *       A budget in the context of this application represents a breakdown of three main categories of expenses:
+ *       Needs, Wants, and Savings. Each user has a budget that specifies how much they can allocate to each of these categories.
+ *       A single user can have only one budget, and the budget is linked to the user through a one-to-one relationship.
+ */
 
 @Entity
 @Table(name = "budgets")
@@ -11,9 +16,7 @@ public class Budget {
     private int id;
     //https://stackoverflow.com/questions/67353793/what-does-jsonignorepropertieshibernatelazyinitializer-handler-do
     // This annotation is used to ignore properties that will cause issues with serialization, particularly with lazy loading in Hibernate.
-    @JsonIgnoreProperties({
-            "transactionList", "password", "hibernateLazyInitializer", "handler"
-    })
+    @JsonIgnoreProperties({"transactionList", "password", "hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_budget_user"))
     private User user;

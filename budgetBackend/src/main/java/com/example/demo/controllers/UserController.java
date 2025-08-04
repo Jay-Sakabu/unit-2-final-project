@@ -9,6 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
+/*
+*           This controller handles user registration and login.
+*           Passwords are hashed using BCrypt before being stored in the database.
+*           On login, the provided password is compared against the stored hash.
+*           On the frontend, the user object is stored in localStorage to maintain session state, in a future iteration
+*           That will be changed to using JWTs or sessions for better security.
+*/
+
+
 // Added CORS support for local development
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -23,7 +32,7 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Duplicates aren't strictly prohibited, but handle them for demonstration purposes
+    // Duplicates aren't strictly prohibited, but handle them to avoid collisions
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User incoming) {
         if (userRepository.findByEmail(incoming.getEmail()).isPresent()) {

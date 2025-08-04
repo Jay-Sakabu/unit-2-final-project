@@ -3,6 +3,11 @@ package com.example.demo.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+/*
+* A user in the context of this application represents an individual who will have a name, email, and password.
+* Additionally, each user can have multiple transactions represented by a list of Transactions associated with them.
+*
+*/
 
 @Entity
 @Table(name = "users")
