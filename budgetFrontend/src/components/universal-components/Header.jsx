@@ -32,7 +32,7 @@ const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/ViewBudgets">Financial Info</NavLink>
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/about">About</NavLink>
 
-                    <button className="link-styling" onClick={handleLogoutClick} style={{ background: "none", border: "none", cursor: "pointer" }}>
+                    <button className="link-styling" onClick={handleLogoutClick} id='logout-button'>
                         Logout
                     </button></div>
             </nav>

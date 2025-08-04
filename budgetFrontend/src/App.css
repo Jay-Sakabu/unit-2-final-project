@@ -28,6 +28,7 @@ body,
   /* sidebar */
   --nav-bg: #eff0be;
   --nav-text: #000000;
+  --logout-button: ;
 
   /* cards */
   --card1-bg: #b0d5e2;
@@ -106,7 +107,6 @@ h2 {
   width: 50%;
   margin: auto;
   text-align: center;
-
 }
 
 /* Home page  */
@@ -276,6 +276,18 @@ h2 {
   margin-top: 10px;
 }
 
+#logout-button {
+  color: var(--link-hover);
+  background: none;
+  border-color: var(--active-link-bg);
+  cursor: pointer;
+  margin-top: 90%;
+  &:hover {
+    color: var(--nav-text);
+    border-color: var(--accent);
+  }
+}
+
 /* Footer CSS */
 
 .footer {
@@ -380,7 +392,7 @@ h2 {
   font-weight: 600;
 }
 
-.error-message{
+.error-message {
   color: red;
   font-size: large;
 }
