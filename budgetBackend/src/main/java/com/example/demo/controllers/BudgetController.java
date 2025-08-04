@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Budget;
 import com.example.demo.repositories.BudgetRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 // Added CORS support for local development
