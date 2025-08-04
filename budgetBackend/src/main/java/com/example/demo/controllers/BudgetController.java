@@ -17,9 +17,10 @@ public class BudgetController {
     }
 
     //GET endpoint to retrieve the budget for a specific user
+    // Changed to orElse null because the frontend will handle the case where no budget exists for a user
     @GetMapping("/budget")
-    public ResponseEntity<Budget> getBudget(@RequestParam Integer userId) {
-        return budgetRepository.findByUserId(userId).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public Budget getBudget(@RequestParam Integer userId) {
+        return budgetRepository.findByUserId(userId).orElse(null);
     }
     // POST endpoint to set or update the budget for a specific user
     // If the budget already exists for the user, it will be updated; otherwise, a new budget will be created

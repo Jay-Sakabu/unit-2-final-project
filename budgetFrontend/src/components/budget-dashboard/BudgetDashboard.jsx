@@ -33,7 +33,14 @@ const BudgetDashboard = () => {
         if (!user) return;
         api
             .get("/budget/budget", { params: { userId: user.id } })
-            .then(res => setBudget(toUIBudget(res.data)))
+            .then(res => {
+                if (res.data) {
+                    setBudget(toUIBudget(res.data));
+                } else {
+                    // no existing budget explicit set to null to avoid strange "undefined" crashes
+                    setBudget(null);
+                }
+            })
             .catch(() => setError("Could not load budget"));
     }, [user]);
 

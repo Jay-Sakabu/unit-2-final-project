@@ -26,7 +26,12 @@ const CreateBudgetPage = () => {
         api
             .get("/budget/budget", { params: { userId: user.id } })
             .then(res => {
-                setBudget(toUIBudget(res.data));
+                if (res.data) {
+                    setBudget(toUIBudget(res.data));
+                } else {
+                    // no budget yet set to explicit null to fit error handling in budget
+                    setBudget(null);
+                }
             })
             .catch(err => {
                 console.log("Asset not found, not necessarily an error")

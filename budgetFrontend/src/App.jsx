@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import Header from './components/universal-components/Header';
 import Footer from './components/universal-components/Footer';
 import About from './Pages/About';
-import BudgetForm from './Pages/CreateBudgetPage';
+import CreateBudgetPage from './Pages/CreateBudgetPage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import Home from './Pages/Home';
 import ViewBudget from './Pages/ViewBudget';
@@ -46,7 +46,7 @@ function App() {
                     <main className="main-content">
                       <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/budget" element={<BudgetForm />} />
+                        <Route path="/budget" element={<CreateBudgetPage />} />
                         <Route path="/viewBudgets" element={<ViewBudget />} />
                         <Route path="/about" element={<About />} />
                       </Routes>
