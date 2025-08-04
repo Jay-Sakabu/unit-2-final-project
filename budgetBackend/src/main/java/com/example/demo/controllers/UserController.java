@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.http.*;
+//https://stackoverflow.com/questions/60848619/consider-defining-a-bean-of-type-org-springframework-security-crypto-bcrypt-bcr
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
