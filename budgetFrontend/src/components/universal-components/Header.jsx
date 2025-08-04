@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router';
 import { useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -19,12 +20,12 @@ const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
                 >
                     ☰
                 </button>
-                <button
-                    aria-label="Toggle light/dark mode"
-                    onClick={onToggleTheme}
-                >
-                    {currentTheme === 'dark' ? 'Light mode' : 'Dark mode'}
-                </button>
+                <ThemeToggle
+                    currentTheme={currentTheme}
+                    onToggle={() =>
+                        onToggleTheme(t => (t === 'dark' ? 'light' : 'dark'))
+                    }
+                />
                 <div className={`nav-links ${menuOpen ? "open" : ""}`}>
                     {/* Check if link is active, if so: give link active-link CSS class */}
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/">Home</NavLink>
