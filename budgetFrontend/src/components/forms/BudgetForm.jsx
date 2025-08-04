@@ -126,6 +126,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
                     placeholder={type === 'annual' ? 'Annual amount' : 'Monthly amount'}
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
+                    id="income-frequency"
                     required
                 />
             )}
