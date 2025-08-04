@@ -1,8 +1,9 @@
 import { Link, NavLink, useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import ThemeToggle from './ThemeToggle';
-
+import { AuthContext } from '../auth-context/AuthContext';
 const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
+    const { user } = useContext(AuthContext);
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
                         onToggleTheme(t => (t === 'dark' ? 'light' : 'dark'))
                     }
                 />
+                <h4>Welcome, {user.name}!</h4>
                 <div className={`nav-links ${menuOpen ? "open" : ""}`}>
                     {/* Check if link is active, if so: give link active-link CSS class */}
                     <NavLink className={({ isActive }) => isActive ? "active-link" : "link-styling"} to="/">Home</NavLink>

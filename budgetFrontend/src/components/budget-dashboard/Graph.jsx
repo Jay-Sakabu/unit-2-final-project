@@ -11,7 +11,7 @@ const Graph = ({ actualSpending, budgetTargets }) => {
     const actualLabels = ["Needs", "Wants", "Savings", "Unallocated"];
     const targetLabels = ["Needs", "Wants", "Savings"];
 
-    //TODO: These need to be moved over to app.css for light mode compatibility
+    //Long term: Need to find a way to change these colors based on theme without grabbing from doc, might need to make that into a component
     const sliceColors = [
         "#c1022bff", // Needs
         "#005791ff", // Wants

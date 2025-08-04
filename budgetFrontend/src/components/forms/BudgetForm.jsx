@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-//TODO: Add some comments for ease of explanation for presentation, mostly fine
 
 const BudgetForm = ({ onSubmitBudget }) => {
     const [type, setType] = useState('monthly');
