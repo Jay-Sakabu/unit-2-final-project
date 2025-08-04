@@ -13,11 +13,12 @@ const Graph = ({ actualSpending, budgetTargets }) => {
 
     //TODO: These need to be moved over to app.css for light mode compatibility
     const sliceColors = [
-        "#632734ff", // Needs
-        "#143d58ff", // Wants
-        "#72591aff", // Savings
+        "#c1022bff", // Needs
+        "#005791ff", // Wants
+        "#b88f29ff", // Savings
         "transparent", // Unallocated
     ];
+    const borderColor = "#352e2eff"; 
 
     // build actual‐spending pie (with Unallocated)
     const actualData = {
@@ -27,6 +28,7 @@ const Graph = ({ actualSpending, budgetTargets }) => {
                 label: "Actual Spending",
                 data: actualLabels.map((cat) => actualSpending[cat] || 0),
                 backgroundColor: sliceColors,
+                borderColor,
             },
         ],
     };
@@ -39,6 +41,7 @@ const Graph = ({ actualSpending, budgetTargets }) => {
                 label: "Budget Targets",
                 data: targetLabels.map((cat) => budgetTargets[cat] || 0),
                 backgroundColor: sliceColors.slice(0, 3),
+                borderColor,
             },
         ],
     };

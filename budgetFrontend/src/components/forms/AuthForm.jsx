@@ -64,6 +64,7 @@ const AuthForm = () => {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        id="email-input"
                         required
                     />
                     <input
@@ -71,6 +72,7 @@ const AuthForm = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        id="password-input"
                         required
                     />
                     <button type="submit">
