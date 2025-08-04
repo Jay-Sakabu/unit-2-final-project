@@ -14,7 +14,7 @@ public class Budget {
     @JsonIgnoreProperties({
             "transactionList", "password", "hibernateLazyInitializer", "handler"
     })
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_budget_user"))
     private User user;
 
