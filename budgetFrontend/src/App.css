@@ -380,6 +380,11 @@ h2 {
   font-weight: 600;
 }
 
+.error-message{
+  color: red;
+  font-size: large;
+}
+
 /* Mobile only CSS */
 
 @media (max-width: 768px) {
