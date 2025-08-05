@@ -18,8 +18,8 @@ const AuthForm = () => {
         setPassword("");
     };
 
-    const handleSubmit = async e => {
-        e.preventDefault();
+    const handleSubmit = async event => {
+        event.preventDefault();
         try {
             let res;
             if (isRegistering) {
@@ -31,8 +31,8 @@ const AuthForm = () => {
 
             // Hand over persistence & state to AuthContext
             login(user);
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error(error);
             setErrorMessage(
                 isRegistering
                     ? "Registration failed. Please try again."
@@ -55,7 +55,7 @@ const AuthForm = () => {
                             type="text"
                             placeholder="Name"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(event) => setName(event.target.value)}
                             required
                         />
                     )}
@@ -63,7 +63,7 @@ const AuthForm = () => {
                         type="email"
                         placeholder="Email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(event) => setEmail(event.target.value)}
                         id="email-input"
                         required
                     />
@@ -71,7 +71,7 @@ const AuthForm = () => {
                         type="password"
                         placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(event) => setPassword(event.target.value)}
                         id="password-input"
                         required
                     />

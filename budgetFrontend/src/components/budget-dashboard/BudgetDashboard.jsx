@@ -55,8 +55,8 @@ const BudgetDashboard = () => {
 
     // Recalcualte the category totals
     useEffect(() => {
-        const totals = transactions.reduce((acc, tx) => {
-            acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
+        const totals = transactions.reduce((acc, transaction) => {
+            acc[transaction.category] = (acc[transaction.category] || 0) + transaction.amount;
             return acc;
         }, {});
         setCategoryTotals({

@@ -55,8 +55,8 @@ const BudgetForm = ({ onSubmitBudget }) => {
     };
 
     // Handle form submission
-    const handleSubmit = e => {
-        e.preventDefault();
+    const handleSubmit = event => {
+        event.preventDefault();
         const budget = calculateBudget(); // Try to compute budget
         if (budget) {
             onSubmitBudget(budget); // Pass budget up to parent
@@ -77,7 +77,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
                             name="type"
                             value={option}
                             checked={type === option}
-                            onChange={e => { setType(e.target.value); reset(); }}
+                            onChange={event => { setType(event.target.value); reset(); }}
                         />
                         {option === 'average' ? 'Average of X Months' : option.charAt(0).toUpperCase() + option.slice(1)}
                     </label>
@@ -92,8 +92,8 @@ const BudgetForm = ({ onSubmitBudget }) => {
                         min="1"
                         max="12"
                         value={monthCount}
-                        onChange={e => {
-                            let count = Number(e.target.value) || 1;
+                        onChange={event => {
+                            let count = Number(event.target.value) || 1;
                             if(count > 12){
                                 count = 12;
                             }
@@ -109,9 +109,9 @@ const BudgetForm = ({ onSubmitBudget }) => {
                             type="number"
                             value={value}
                             placeholder={`Month ${index + 1}`}
-                            onChange={e => {
+                            onChange={event => {
                                 const copy = [...averages];
-                                copy[index] = e.target.value;
+                                copy[index] = event.target.value;
                                 setAverages(copy); // Update specific month's value
                             }}
                             required
@@ -124,7 +124,7 @@ const BudgetForm = ({ onSubmitBudget }) => {
                     type="number"
                     placeholder={type === 'annual' ? 'Annual amount' : 'Monthly amount'}
                     value={amount}
-                    onChange={e => setAmount(e.target.value)}
+                    onChange={event => setAmount(event.target.value)}
                     id="income-frequency"
                     required
                 />

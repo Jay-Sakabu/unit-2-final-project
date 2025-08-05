@@ -24,7 +24,7 @@ const Header = ({ onToggleTheme, currentTheme, onLogout }) => {
                 <ThemeToggle
                     currentTheme={currentTheme}
                     onToggle={() =>
-                        onToggleTheme(t => (t === 'dark' ? 'light' : 'dark'))
+                        onToggleTheme(theme => (theme === 'dark' ? 'light' : 'dark'))
                     }
                 />
                 <h4>Welcome, {user.name}!</h4>
