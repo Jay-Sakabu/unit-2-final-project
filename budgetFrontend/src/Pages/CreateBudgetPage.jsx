@@ -34,7 +34,7 @@ const CreateBudgetPage = () => {
                 }
             })
             .catch(err => {
-                console.log("Asset not found, not necessarily an error")
+                console.error("Asset not found, not necessarily an error")
             })
             .finally(() => {
                 setLoading(false)
