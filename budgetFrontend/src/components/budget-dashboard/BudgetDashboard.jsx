@@ -53,19 +53,6 @@ const BudgetDashboard = () => {
             .catch(() => setError("Could not load transactions"));
     }, [user]);
 
-    // Recalcualte the category totals
-    useEffect(() => {
-        const totals = transactions.reduce((acc, transaction) => {
-            acc[transaction.category] = (acc[transaction.category] || 0) + transaction.amount;
-            return acc;
-        }, {});
-        setCategoryTotals({
-            Needs: totals.Needs || 0,
-            Wants: totals.Wants || 0,
-            Savings: totals.Savings || 0
-        });
-    }, [transactions]);
-
     const budgetTargets = useMemo(() => ({
         Needs: budget?.needs || 0,
         Wants: budget?.wants || 0,
